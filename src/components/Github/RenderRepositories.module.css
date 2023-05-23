@@ -30,6 +30,9 @@
 .RepositoryItemName,
 .RepositoryItemNameHeader {
     left: 1rem;
+    max-width: 10rem;
+    overflow: hidden; /*все что длиннее - обрезаем*/
+    white-space: nowrap; /*отмена переноса тектса*/
 }
 
 .RepositoryItemStars,

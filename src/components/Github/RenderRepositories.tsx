@@ -21,6 +21,7 @@ const RenderRepositories: React.FC<RenderRepositoriesType> = ({MyRepositoriesDat
         {SearchResultData.map(m=>{
             return <RepositoryItem
                 key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount}
+                // @ts-ignore
                 LastCommit={
                     m.defaultBranchRef &&
                     m.defaultBranchRef.target.committedDate}
