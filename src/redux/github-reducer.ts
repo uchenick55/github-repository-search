@@ -14,8 +14,9 @@ type GithubActionTypes = InferActionsTypes<typeof GithubActions>
 type initialStateType = typeof initialState
 
 let initialState = { //стейт по умолчанию с гитхаба
-    MyRepositoryData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
-        [{
+    MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
+        [
+            {
             "id": "MDEwOlJlcG9zaXRvcnkyODQ1NzgyMw==",
             "name": "freeCodeCamp",
             "url": "https://github.com/freeCodeCamp/freeCodeCamp",
@@ -137,8 +138,9 @@ let initialState = { //стейт по умолчанию с гитхаба
             "__typename": "Repository"
         }
         ],
-    SearchResultData:  // заглушка, список результатов поиска репозиториев
-        [{
+    SearchResultData:  // заглушка, данные поиска репозиториев
+        [
+            {
             "id": "MDEwOlJlcG9zaXRvcnk0MjAwNTI4MA==",
             "name": "x86-bare-metal-examples",
             "url": "https://github.com/cirosantilli/x86-bare-metal-examples",
