@@ -5,13 +5,13 @@ import GitHubCOM from "./GitHubCOM";
 import {GithubActions} from "../../../redux/github-reducer";
 
 const GitHubContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
-    {MyRepositoriesData, SearchResultData, setSearchQueryAC}) => {
+    {MyRepositoriesData, SearchResultData, setSearchQueryAC, PaginationData}) => {
     const setSearchQuery = (searchQuery: string) => {
         setSearchQueryAC( searchQuery )
     }
     return <div>
         <GitHubCOM MyRepositoriesData={MyRepositoriesData} SearchResultData={SearchResultData}
-                   setSearchQuery={setSearchQuery}/>
+                   setSearchQuery={setSearchQuery} PaginationData={PaginationData}/>
     </div>
 }
 
@@ -19,7 +19,8 @@ const mapStateToProps = (state: GlobalStateType) => {
     return {
         MyRepositoriesData: state.github.MyRepositoriesData, // данные моего репозитория
         SearchResultData: state.github.SearchResultData, // данные поиска репозиториев
-        CardData: state.github.CardData //  карточка автора репозитория
+        CardData: state.github.CardData, //  карточка автора репозитория
+        PaginationData: state.github.PaginationData
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>

@@ -15,6 +15,12 @@ type initialStateType = typeof initialState
 
 let initialState = { //стейт по умолчанию с гитхаба
     SearchQuery: "", // поисковый запрос после нажатия на ввоод поля ввода
+    PaginationData: { // данные пагинации
+        totalRepositoriesCount: 0 , // общее число репозиториев, загруженых с сервера
+        pageSize:10, // количество репозиториев на одной странице
+        currentPage: 1, // текущая страница пагинации
+        currentRangeLocal: 1, // текущий диапазон страниц пагинации
+    },
     MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
         [
             {
@@ -1361,6 +1367,7 @@ let initialState = { //стейт по умолчанию с гитхаба
 }
 export type MyRepositoriesDataType = typeof initialState.MyRepositoriesData
 export type SearchResultDataType = typeof initialState.SearchResultData
+export type PaginationDataType = typeof  initialState.PaginationData
 
 let githubReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
