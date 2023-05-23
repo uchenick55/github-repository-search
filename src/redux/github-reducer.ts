@@ -1,11 +1,11 @@
 import {InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
 
-const SET_AAA = "myApp/app-reducer/SET_AAA"; //константа инициализации приложения
+const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //константа задания поискового запроса в стейт
 
 export const GithubActions = {
-    setAaa: () => { // экшн креатор  получения данных с сервера
-        return {type: SET_AAA} as const
+    setSearchQueryAC: (searchQuery: string) => { // экшн креатор задания поискового запроса в стейт
+        return {type: SET_SEARCH_QUERY, searchQuery} as const
     },
 }
 
@@ -14,6 +14,7 @@ type GithubActionTypes = InferActionsTypes<typeof GithubActions>
 type initialStateType = typeof initialState
 
 let initialState = { //стейт по умолчанию с гитхаба
+    SearchQuery: "", // поисковый запрос после нажатия на ввоод поля ввода
     MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
         [
             {
@@ -1364,9 +1365,10 @@ export type SearchResultDataType = typeof initialState.SearchResultData
 let githubReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
     switch (action.type) {
-        case SET_AAA: // экшн инициализации приложения
+        case SET_SEARCH_QUERY: // экшн задания поискового запроса в стейт
             stateCopy = {
                 ...state, // копия всего стейта
+                SearchQuery: action.searchQuery
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
