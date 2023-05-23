@@ -6,12 +6,12 @@ import {NavLink} from "react-router-dom";
 type RepositoryItemType = {
     RepositoryName:string
     stars: number
-    LastCommit:string
+    LastCommit:string | null
     Link: string
     id: string
 }
 const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id})=>{
-    const LocalDate:DataReturn2Type = GetDate(LastCommit)
+    const LocalDate:DataReturn2Type = GetDate(LastCommit? LastCommit:"")
     return <div className={с.RepositoryItemCommon}>
         <NavLink to={`/${id}`}>
             <div className={с.RepositoryItemName + " " + с.PosRelative}>{RepositoryName}</div> {/*имя*/}

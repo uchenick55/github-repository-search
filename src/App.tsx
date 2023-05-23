@@ -5,7 +5,7 @@ import {GlobalStateType} from "./redux/store-redux";
 import {connect} from "react-redux";
 import {initialisedAppThunkCreator} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {initialisedAppThunkCreator, initialisedApp}) => {

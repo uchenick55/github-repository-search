@@ -1359,7 +1359,7 @@ let initialState = { //стейт по умолчанию с гитхаба
 
 }
 export type MyRepositoriesDataType = typeof initialState.MyRepositoriesData
-
+export type SearchResultDataType = typeof initialState.SearchResultData
 
 let githubReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером

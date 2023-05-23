@@ -1,12 +1,11 @@
 import React from "react";
 import {GlobalStateType} from "../../redux/store-redux";
 import {connect} from "react-redux";
-import {initialisedAppThunkCreator} from "../../redux/app-reducer";
 import GitHubCOM from "./GitHubCOM";
 
 const GitHubContainer:React.FC<mapStateToPropsType & mapDispatchToPropsType> = ({MyRepositoriesData, SearchResultData}) => {
     return <div>
-        <GitHubCOM MyRepositoriesData={MyRepositoriesData}/>
+        <GitHubCOM MyRepositoriesData={MyRepositoriesData} SearchResultData={SearchResultData}  />
     </div>
 }
 

@@ -1,4 +1,4 @@
-import {MyRepositoriesDataType} from "../../redux/github-reducer";
+import {MyRepositoriesDataType, SearchResultDataType} from "../../redux/github-reducer";
 import React from "react";
 import с from "./RenderRepositories.module.css";
 import RepositoryItem from "./RepositoryItem";
@@ -6,8 +6,10 @@ import RepositoryItem from "./RepositoryItem";
 
 type RenderRepositoriesType = {
     MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
+    SearchResultData: SearchResultDataType
+
 }
-const RenderRepositories: React.FC<RenderRepositoriesType> = ({MyRepositoriesData}) => {
+const RenderRepositories: React.FC<RenderRepositoriesType> = ({MyRepositoriesData, SearchResultData}) => {
     return <div className={с.RenderRepositories}>
         <div className={с.RepositoryItemHeaderCommon+ " " + с.PosAbs}>
             <div className={с.RepositoryItemNameHeader + " " + с.PosAbs}>Repository</div>
@@ -16,10 +18,13 @@ const RenderRepositories: React.FC<RenderRepositoriesType> = ({MyRepositoriesDat
             <div className={с.RepositoryItemLinkHeader+ " " + с.PosAbs}>Link</div>
         </div>
 
-        {MyRepositoriesData.map(m=>{
+        {SearchResultData.map(m=>{
             return <RepositoryItem
                 key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount}
-                LastCommit={m.defaultBranchRef.target.committedDate} Link={m.url} id={m.id}
+                LastCommit={
+                    m.defaultBranchRef &&
+                    m.defaultBranchRef.target.committedDate}
+                Link={m.url} id={m.id}
             />
 
         })}
