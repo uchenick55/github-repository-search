@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 import {initialisedAppThunkCreator} from "../../redux/app-reducer";
 import GitHubCOM from "./GitHubCOM";
 
-const GitHubContainer:React.FC = () => {
+const GitHubContainer:React.FC<mapStateToPropsType & mapDispatchToPropsType> = ({MyRepositoriesData, SearchResultData}) => {
     return <div>
-        <GitHubCOM/>
+        <GitHubCOM MyRepositoriesData={MyRepositoriesData}/>
     </div>
 }
 
