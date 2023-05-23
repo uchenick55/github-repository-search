@@ -1,0 +1,59 @@
+.ToCenter {
+    display: flex;
+    justify-content: center;
+
+}
+.RenderRepositories {
+    background-color: cadetblue;
+    width: 35rem;
+    padding: 3rem 1rem 1rem;
+    margin: 2rem;
+    position: relative;
+    border-radius: 1rem;
+}
+
+.RepositoryItemCommon {
+    position: relative;
+    height: 1.5rem;
+}
+
+.PosAbs {
+    position: absolute;
+    top: 0;
+}
+
+.PosRelative {
+    position: relative;
+}
+
+.RepositoryItemName,
+.RepositoryItemNameHeader {
+    left: 1rem;
+}
+
+.RepositoryItemStars,
+.RepositoryItemStarsHeader {
+    left: 15rem;
+}
+
+.RepositoryItemLastCommit,
+.RepositoryItemLastCommitHeader {
+    left: 20rem;
+
+}
+.RepositoryItemLastCommitHeader {
+    width: 10rem;
+}
+
+.RepositoryItemLink,
+.RepositoryItemLinkHeader {
+    left: 28rem;
+
+}
+
+.RepositoryItemHeaderCommon {
+    font-size: 1.2rem;
+    font-weight: bold;
+    top: 0.8rem;
+    color: maroon;
+}

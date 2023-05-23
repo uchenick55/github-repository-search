@@ -1,18 +1,20 @@
 import {MyRepositoriesDataType} from "../../redux/github-reducer";
 import React from "react";
 import RepositoryItem from "./RepositoryItem";
+import с from "./RenderRepositories.module.css"
+import RenderRepositories from "./RenderRepositories";
+import RenderSearchField from "./RenderSearchField";
 
-type GitHubCOMType = {
+export type GitHubCOMType = {
     MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
 }
 const GitHubCOM: React.FC<GitHubCOMType> = ({MyRepositoriesData}) => {
-    return <div>
-        {MyRepositoriesData.map(m=>{
-            return <RepositoryItem
-                key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount} LastCommit={m.defaultBranchRef.target.committedDate}
-            />
 
-        })}
+    return <div className={с.ToCenter}> {/*  центруем*/}
+
+        <RenderSearchField/> {/*отрисовка поля поиска */}
+
+        <RenderRepositories MyRepositoriesData={MyRepositoriesData}/> {/*отрисовка списка репозиториев*/}
 
     </div>
 }
