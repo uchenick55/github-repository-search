@@ -19,7 +19,7 @@ const RenderRepositories: React.FC<RenderRepositoriesType> = ({MyRepositoriesDat
         {MyRepositoriesData.map(m=>{
             return <RepositoryItem
                 key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount}
-                LastCommit={m.defaultBranchRef.target.committedDate} Link={m.url}
+                LastCommit={m.defaultBranchRef.target.committedDate} Link={m.url} id={m.id}
             />
 
         })}

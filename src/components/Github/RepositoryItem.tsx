@@ -1,17 +1,21 @@
 import React from "react";
 import с from "./RenderRepositories.module.css"
 import GetDate, {DataReturn2Type} from "../common/GetDate";
+import {NavLink} from "react-router-dom";
 
 type RepositoryItemType = {
     RepositoryName:string
     stars: number
     LastCommit:string
     Link: string
+    id: string
 }
-const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link})=>{
+const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id})=>{
     const LocalDate:DataReturn2Type = GetDate(LastCommit)
     return <div className={с.RepositoryItemCommon}>
-        <div className={с.RepositoryItemName + " " + с.PosRelative}>{RepositoryName}</div> {/*имя*/}
+        <NavLink to={`/${id}`}>
+            <div className={с.RepositoryItemName + " " + с.PosRelative}>{RepositoryName}</div> {/*имя*/}
+        </NavLink>
         <div className={с.RepositoryItemStars + " " + с.PosAbs} >{stars}</div> {/*количество звезд*/}
         <div className={с.RepositoryItemLastCommit+ " " + с.PosAbs}>
             {LocalDate.Day} / {LocalDate.Month} / {LocalDate.Year} </div> {/*время последнего коммита*/}

@@ -5,6 +5,7 @@ import {GlobalStateType} from "./redux/store-redux";
 import {connect} from "react-redux";
 import {initialisedAppThunkCreator} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
+import {HashRouter, Route, Routes} from "react-router-dom";
 
 const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {initialisedAppThunkCreator, initialisedApp}) => {
@@ -18,10 +19,11 @@ const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     }
 
     return <div>
-        <ErrorBoundary> {/*Общий обработчик ошибок во всем приложении*/}
-
-            <GitHubContainer/>
-        </ErrorBoundary>
+        <HashRouter> {/*BrowserRouter для продакшн, HashRouter для gh-pages*/}
+            <ErrorBoundary> {/*Общий обработчик ошибок во всем приложении*/}
+                <GitHubContainer/>
+            </ErrorBoundary>
+        </HashRouter>
     </div>
 }
 
