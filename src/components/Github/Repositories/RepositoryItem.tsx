@@ -1,6 +1,6 @@
 import React from "react";
-import с from "./RenderRepositories.module.css"
-import GetDate, {DataReturn2Type} from "../common/GetDate";
+import s from "./RenderRepositories.module.css"
+import GetDate, {DataReturn2Type} from "../../../common/GetDate/GetDate";
 import {NavLink} from "react-router-dom";
 
 type RepositoryItemType = {
@@ -12,14 +12,14 @@ type RepositoryItemType = {
 }
 const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id})=>{
     const LocalDate:DataReturn2Type = GetDate(LastCommit? LastCommit:"")
-    return <div className={с.RepositoryItemCommon}>
+    return <div className={s.RepositoryItemCommon}>
         <NavLink to={`/${id}`}>
-            <div className={с.RepositoryItemName + " " + с.PosRelative}>{RepositoryName}</div> {/*имя*/}
+            <div className={s.RepositoryItemName + " " + s.PosRelative}>{RepositoryName}</div> {/*имя*/}
         </NavLink>
-        <div className={с.RepositoryItemStars + " " + с.PosAbs} >{stars}</div> {/*количество звезд*/}
-        <div className={с.RepositoryItemLastCommit+ " " + с.PosAbs}>
+        <div className={s.RepositoryItemStars + " " + s.PosAbs} >{stars}</div> {/*количество звезд*/}
+        <div className={s.RepositoryItemLastCommit+ " " + s.PosAbs}>
             {LocalDate.Day} / {LocalDate.Month} / {LocalDate.Year} </div> {/*время последнего коммита*/}
-        <a className={с.RepositoryItemLink+ " " + с.PosAbs} href={Link?Link:""} >Go to repository</a> {/*ссылка на репозиторий*/}
+        <a className={s.RepositoryItemLink+ " " + s.PosAbs} href={Link?Link:""} >Go to repository</a> {/*ссылка на репозиторий*/}
     </div>
 }
 export default RepositoryItem

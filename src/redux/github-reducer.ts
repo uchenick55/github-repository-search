@@ -1,5 +1,5 @@
 import {InferActionsTypes} from "./store-redux";
-import {ComThunkTp} from "../types/commonTypes";
+import {ComThunkTp} from "../common/types/commonTypes";
 
 const SET_AAA = "myApp/app-reducer/SET_AAA"; //константа инициализации приложения
 

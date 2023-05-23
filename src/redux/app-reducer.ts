@@ -1,5 +1,5 @@
 import { InferActionsTypes} from "./store-redux";
-import {ComThunkTp} from "../types/commonTypes";
+import {ComThunkTp} from "../common/types/commonTypes";
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_PATCH = "myApp/app-reducer/SET_PATCH"; //константа задания пути в URL

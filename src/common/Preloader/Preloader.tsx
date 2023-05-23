@@ -1,7 +1,7 @@
 import React from "react";
-import с from "./Preloader.module.css"
+import s from "./Preloader.module.css"
 
 let Preloader: React.FC<unknown> = () => {
-    return <div className={с.spinner}/>
+    return <div className={s.spinner}/>
 }
 export default Preloader

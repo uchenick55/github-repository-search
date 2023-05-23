@@ -1,5 +1,5 @@
 import React from "react";
-import {GlobalStateType} from "../../redux/store-redux";
+import {GlobalStateType} from "../../../redux/store-redux";
 import {connect} from "react-redux";
 import GitHubCOM from "./GitHubCOM";
 

@@ -3,13 +3,38 @@
     justify-content: center;
 
 }
-.RenderRepositories {
-    background-color: cadetblue;
-    width: 35rem;
-    padding: 3rem 1rem 1rem;
-    margin: 2rem;
+
+.GitHubCOM {
+    width: 38rem;
     position: relative;
-    border-radius: 1rem;
+}
+.SearchFieldCommon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+
+}
+.SearchField {
+    position: relative;
+    top: 0.7rem;
+    width: 20rem ;
+    height: 1.3rem;
+    border-radius: 0.2rem;
+    border: 1px solid green;
+    padding: 0.3rem;
+}
+.RenderRepositoriesCommon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 3rem;
+
+    padding: 3rem 1rem 1rem;
+
 }
 
 .RepositoryItemCommon {
@@ -52,11 +77,12 @@
 .RepositoryItemLink,
 .RepositoryItemLinkHeader {
     left: 28rem;
+    width: 10rem;
 
 }
 
 .RepositoryItemHeaderCommon {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     font-weight: bold;
     top: 0.8rem;
     color: maroon;

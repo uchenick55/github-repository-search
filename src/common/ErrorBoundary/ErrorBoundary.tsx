@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import {NulableType} from "../../../types/commonTypes";
+import {NulableType} from "../types/commonTypes";
 type ErrorBoundaryPropsType = {
     children: ReactNode
 }

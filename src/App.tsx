@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import GitHubContainer from "./components/Github/GithubContainer";
-import ErrorBoundary from "./components/common/ErrorBoundary/ErrorBoundary";
+import GitHubContainer from "./components/Github/Repositories/GithubContainer";
+import ErrorBoundary from "./common/ErrorBoundary/ErrorBoundary";
 import {GlobalStateType} from "./redux/store-redux";
 import {connect} from "react-redux";
 import {initialisedAppThunkCreator} from "./redux/app-reducer";
-import Preloader from "./components/common/Preloader/Preloader";
+import Preloader from "./common/Preloader/Preloader";
 import {HashRouter} from "react-router-dom";
 
 const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
