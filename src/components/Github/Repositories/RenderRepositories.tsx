@@ -11,7 +11,10 @@ type RenderRepositoriesType = {
 const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData, PaginationData}) => {
 
     const RepositoriesDataFiltered: SearchResultDataType | MyRepositoriesDataType
-        = RepositoriesData.filter((r, ind, arr)=>ind<PaginationData.pageSize)
+        = RepositoriesData.filter((r, ind)=> // фильтрация всех загруженых репозиториев
+        ind>PaginationData.pageSize*(PaginationData.currentPage-1) && // с репозиториев по текущей странице
+        ind<PaginationData.pageSize*PaginationData.currentPage // до репозиториев на pageSize больше
+    )
 
     return <div className={s.RenderRepositoriesCommon}>
         <div className={s.RepositoryItemHeaderCommon+ " " + s.PosAbs}>
