@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import s from "./RenderRepositories.module.css"
+import s from "./Repositories.module.css"
 
 type RenderSearchFieldType = {
     setSearchQuery: (searchQuery:string)=>void // задание в стейт поискового запроса

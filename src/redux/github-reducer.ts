@@ -2,10 +2,14 @@ import {InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
 
 const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //константа задания поискового запроса в стейт
+const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
 
 export const GithubActions = {
     setSearchQueryAC: (searchQuery: string) => { // экшн креатор задания поискового запроса в стейт
         return {type: SET_SEARCH_QUERY, searchQuery} as const
+    },
+    setPaginationDataAC: (PaginationData: PaginationDataType) => { // экшн креатор задания объекта с данными пагинации в стейт
+        return {type: SET_PAGINATION_DATA, PaginationData} as const
     },
 }
 
@@ -16,26 +20,27 @@ type initialStateType = typeof initialState
 let initialState = { //стейт по умолчанию с гитхаба
     SearchQuery: "", // поисковый запрос после нажатия на ввоод поля ввода
     PaginationData: { // данные пагинации
-        totalRepositoriesCount: 0 , // общее число репозиториев, загруженых с сервера
-        pageSize:10, // количество репозиториев на одной странице
+        totalRepositoriesCount: 0, // общее число репозиториев, загруженых с сервера
+        pageSize: 10, // количество репозиториев на одной странице
         currentPage: 1, // текущая страница пагинации
         currentRangeLocal: 1, // текущий диапазон страниц пагинации
+        PortionSize: 10  // количество отображаемых страниц между кнопками
     },
     MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
         [
             {
-            "id": "MDEwOlJlcG9zaXRvcnkyODQ1NzgyMw==",
-            "name": "freeCodeCamp",
-            "url": "https://github.com/freeCodeCamp/freeCodeCamp",
-            "stargazers": {"totalCount": 367219, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-22T14:14:31Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
+                "id": "MDEwOlJlcG9zaXRvcnkyODQ1NzgyMw==",
+                "name": "freeCodeCamp",
+                "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+                "stargazers": {"totalCount": 367219, "__typename": "StargazerConnection"},
+                "defaultBranchRef": {
+                    "target": {
+                        "committedDate": "2023-05-22T14:14:31Z",
+                        "__typename": "Commit"
+                    }, "__typename": "Ref"
+                },
+                "__typename": "Repository"
+            }, {
             "id": "MDEwOlJlcG9zaXRvcnkxMzQ5MTg5NQ==",
             "name": "free-programming-books",
             "url": "https://github.com/EbookFoundation/free-programming-books",
@@ -148,18 +153,18 @@ let initialState = { //стейт по умолчанию с гитхаба
     SearchResultData:  // заглушка, данные поиска репозиториев
         [
             {
-            "id": "MDEwOlJlcG9zaXRvcnk0MjAwNTI4MA==",
-            "name": "x86-bare-metal-examples",
-            "url": "https://github.com/cirosantilli/x86-bare-metal-examples",
-            "stargazers": {"totalCount": 4415, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2021-05-14T01:00:00Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
+                "id": "MDEwOlJlcG9zaXRvcnk0MjAwNTI4MA==",
+                "name": "x86-bare-metal-examples",
+                "url": "https://github.com/cirosantilli/x86-bare-metal-examples",
+                "stargazers": {"totalCount": 4415, "__typename": "StargazerConnection"},
+                "defaultBranchRef": {
+                    "target": {
+                        "committedDate": "2021-05-14T01:00:00Z",
+                        "__typename": "Commit"
+                    }, "__typename": "Ref"
+                },
+                "__typename": "Repository"
+            }, {
             "id": "MDEwOlJlcG9zaXRvcnk2NDUzNDg1OQ==",
             "name": "linux-kernel-module-cheat",
             "url": "https://github.com/cirosantilli/linux-kernel-module-cheat",
@@ -1367,7 +1372,7 @@ let initialState = { //стейт по умолчанию с гитхаба
 }
 export type MyRepositoriesDataType = typeof initialState.MyRepositoriesData
 export type SearchResultDataType = typeof initialState.SearchResultData
-export type PaginationDataType = typeof  initialState.PaginationData
+export type PaginationDataType = typeof initialState.PaginationData
 
 let githubReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
@@ -1376,6 +1381,12 @@ let githubReducer = (state: initialStateType = initialState, action: GithubActio
             stateCopy = {
                 ...state, // копия всего стейта
                 SearchQuery: action.searchQuery
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_PAGINATION_DATA: // экшн задания данных пагинации в стейт
+            stateCopy = {
+                ...state, // копия всего стейта
+                PaginationData: action.PaginationData
             }
             return stateCopy; // возврат копии стейта после изменения
         default:

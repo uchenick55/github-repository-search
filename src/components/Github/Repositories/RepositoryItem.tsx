@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./RenderRepositories.module.css"
+import s from "./Repositories.module.css"
 import GetDate, {DataReturn2Type} from "../../../common/GetDate/GetDate";
 import {NavLink} from "react-router-dom";
 

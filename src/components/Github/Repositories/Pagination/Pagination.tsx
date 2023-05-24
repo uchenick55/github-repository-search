@@ -1,23 +1,19 @@
 import React from "react";
+import {PaginationDataType} from "../../../../redux/github-reducer";
+import s from "../Repositories.module.css"
 
 type PaginationType = {
-    totalRepositoriesCount: number,
-    pageSize: number,
-    currentPage: number,
-    onPageChanged: (setPage: number) => void,
+    totalRepositoriesCount: number,// общее число репозиториев на странице
+    pageSize: number,// количество репозиториев на одной странице
+    currentPage: number,// текущая страница пагинации
+    PortionSize: number// количество отображаемых страниц из всего массива
     currentRangeLocal: number,
-    onChangeRangeLocal: (rangeShift: number) => void,
-
+    setPaginationDataAC: (PaginationData: PaginationDataType) => void //экшн креатор задания данных пагинации в стейт
+    PaginationData: PaginationDataType
 }
-const Pagination: React.FC<PaginationType> = ({
-                                                  totalRepositoriesCount, // общее число пользователей на сервере
-                                                  pageSize, // количество пользователей на одной странице
-                                                  currentPage, // текущая страница пагинации
-                                                  onPageChanged, // колбек-функция изменения текущей страницы
-                                                  currentRangeLocal,
-                                                  onChangeRangeLocal
-                                              }) => {
-    const PortionSize: number = 6 // количество отображаемых страниц из всего массива
+const Pagination: React.FC<PaginationType> = (
+    {totalRepositoriesCount, pageSize, currentPage, currentRangeLocal, PortionSize, setPaginationDataAC, PaginationData}) => {
+
     // currentRange - текущий диапазон. Он в PortionSize меньше PagesCount
     //setCurrentRange - изменение currentRange по клику на кнопку
     // PortionSizeLeft - Нижнее значение порций (не меньше 1)
@@ -41,30 +37,36 @@ const Pagination: React.FC<PaginationType> = ({
     const setPortion = (setPortionValue: setPortionValueType) => { // задать текущую порцию пагинации
         if (setPortionValue === "prevPortion" && currentRangeLocal > 1) // если мы жмем prevPortion
         {
-            onChangeRangeLocal( -1 ) // уменьшаем диапазон на 1
+            setPaginationDataAC( {...PaginationData, currentRangeLocal: PaginationData.currentRangeLocal - 1} )
+            // onChangeRangeLocal( -1 )  уменьшаем диапазон на 1
         }
         if (setPortionValue === "nextPortion") // если мы жмем nextPortion
         {
-            onChangeRangeLocal( +1 ) // увеличиваем  диапазон на 1
+            setPaginationDataAC( {...PaginationData, currentRangeLocal: PaginationData.currentRangeLocal + 1} )
+
+            //    onChangeRangeLocal( +1 )увеличиваем  диапазон на 1
         }
     };
 
     const renderSlicedPages = slicedPages2.map( (p) => { // мапинг отобранного массива
         return (
-            <div // пагинация бутстрапа
+            <span // пагинация
+                className={s.PaginationItem}
                 key={p} // ключ - страница
                 onClick={() => { // по клику
-                    onPageChanged( p ); // смена текущей старницы на кликнутую
+                    setPaginationDataAC( {...PaginationData, currentPage: p} )
+
+                    //  onPageChanged( p );  смена текущей старницы на кликнутую
                 }}
             >
                 {p} {/*отрисовать номер страницы в пагинации*/}
-            </div>
+            </span>
 
         );
     } )
 
     return (
-        <div>
+        <div className={s.PaginationCommon}>
             <div> {/*стиль мышки рука */}
                 <button onClick={() => {
                     setPortion( "prevPortion" )

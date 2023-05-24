@@ -87,3 +87,14 @@
     top: 0.8rem;
     color: maroon;
 }
+
+.PaginationCommon {
+    position: absolute;
+    top: 22rem;
+}
+
+.PaginationItem {
+    cursor: pointer;
+    margin: 0.5rem;
+
+}
