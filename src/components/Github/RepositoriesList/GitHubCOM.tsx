@@ -9,17 +9,18 @@ export type GitHubCOMType = {
     MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
     SearchResultData: SearchResultDataType
     PaginationData:PaginationDataType // данные пагинации
+    SearchQuery: string, // поле поиска
     setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
     setPaginationData: (PaginationData: PaginationDataType) => void //колбек задания данных пагинации в стейт
 
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
-    {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData}) => {
+    {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData, SearchQuery}) => {
 
 
     return <div className={s.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>
-            <RenderSearchField setSearchQuery={setSearchQuery}/> {/*отрисовка поля поиска */}
+            <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}
 
             <RenderRepositories
                 RepositoriesData={SearchResultData.length > 0 ? SearchResultData : MyRepositoriesData}

@@ -3,30 +3,25 @@ import {GlobalStateType} from "../../../redux/store-redux";
 import {connect} from "react-redux";
 import GitHubCOM from "./GitHubCOM";
 import {
-    getPaginationDataThunkCreator,
-    GithubActions,
     PaginationDataType,
-    setPaginationDataThunkCreator
+    setPaginationDataThunkCreator, setSearchQueryThunkCreator
 } from "../../../redux/gh-list-reducer";
 
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
-    {MyRepositoriesData, SearchResultData, setSearchQueryAC, PaginationData,
-        setPaginationDataThunkCreator, getPaginationDataThunkCreator}) => {
+    {MyRepositoriesData, SearchResultData, PaginationData,
+        setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery}) => {
     const setSearchQuery = (searchQuery: string) => {
-        setSearchQueryAC( searchQuery )
+        setSearchQueryThunkCreator(searchQuery)
     }
 
     const setPaginationData = (PaginationData: PaginationDataType) => {
-       // setPaginationDataAC(PaginationData)
         setPaginationDataThunkCreator(PaginationData)
     }
 
-    useEffect(()=>{
-    },[])
     return <div>
         <GitHubCOM MyRepositoriesData={MyRepositoriesData} SearchResultData={SearchResultData}
                    setSearchQuery={setSearchQuery} PaginationData={PaginationData}
-                   setPaginationData={setPaginationData}/>
+                   setPaginationData={setPaginationData} SearchQuery={SearchQuery}/>
     </div>
 }
 
@@ -34,22 +29,20 @@ const mapStateToProps = (state: GlobalStateType) => {
     return {
         MyRepositoriesData: state.ghList.MyRepositoriesData, // данные моего репозитория
         SearchResultData: state.ghList.SearchResultData, // данные поиска репозиториев
-        PaginationData: state.ghList.PaginationData
+        PaginationData: state.ghList.PaginationData, //данные для пагинации
+        SearchQuery: state.ghList.SearchQuery, // значение поля поиска (после ввода)
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 
 type mapDispatchToPropsType = {
-    setSearchQueryAC: (searchQuery: string) => void // экшн креатор задания поискового запроса из поля ввода в стейт
-    setPaginationDataAC: (PaginationData: PaginationDataType) => void //экшн креатор задания данных пагинации в стейт
     setPaginationDataThunkCreator: (PaginationData: PaginationDataType) => void//санкреатор задания данных пагинации в локалсторадж и потом в стейт
-    getPaginationDataThunkCreator: () => void//санкреатор получения данных пагинации из локалсторадж и потом в стейт
+    setSearchQueryThunkCreator: (SearchQuery: string) => void //санкреатор задания данных SearchQuery в локалсторадж и потом в стейт
 }
-const {setSearchQueryAC, setPaginationDataAC} = GithubActions
 export default connect<mapStateToPropsType,
     mapDispatchToPropsType,
     unknown,
     GlobalStateType>( mapStateToProps, {
-    setSearchQueryAC, setPaginationDataAC, setPaginationDataThunkCreator, getPaginationDataThunkCreator
+    setPaginationDataThunkCreator, setSearchQueryThunkCreator,
 } )( RepoListContainer );
 // коннектим к app флаг и санки инициализации

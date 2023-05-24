@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import s from "./Repositories.module.css"
 
 type RenderSearchFieldType = {
+    SearchQuery: string, // поле поиска
     setSearchQuery: (searchQuery:string)=>void // задание в стейт поискового запроса
 }
 
-const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery}) => {
-    const [inputValue, setInputValue] = useState<string>( "" )
+const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, SearchQuery}) => {
+    const [inputValue, setInputValue] = useState<string>( SearchQuery )
     const checkEnterPressed = (event: React.KeyboardEvent) => { // проверка нажатия Enter
         if (event.charCode==13) {
             setSearchQuery(inputValue)//задание статуса при нажатии Enter

@@ -6,8 +6,8 @@ const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //констан�
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
 
 export const GithubActions = {
-    setSearchQueryAC: (searchQuery: string) => { // экшн креатор задания поискового запроса в стейт
-        return {type: SET_SEARCH_QUERY, searchQuery} as const
+    setSearchQueryAC: (SearchQuery: string) => { // экшн креатор задания поискового запроса в стейт
+        return {type: SET_SEARCH_QUERY, SearchQuery} as const
     },
     setPaginationDataAC: (PaginationData: PaginationDataType) => { // экшн креатор задания объекта с данными пагинации в стейт
         return {type: SET_PAGINATION_DATA, PaginationData} as const
@@ -1354,7 +1354,7 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
         case SET_SEARCH_QUERY: // экшн задания поискового запроса в стейт
             stateCopy = {
                 ...state, // копия всего стейта
-                SearchQuery: action.searchQuery
+                SearchQuery: action.SearchQuery
             }
             return stateCopy; // возврат копии стейта после изменения
         case SET_PAGINATION_DATA: // экшн задания данных пагинации в стейт
@@ -1381,6 +1381,22 @@ export const getPaginationDataThunkCreator = () => {//санкреатор по�
         const response1 = await apiCommon.getPaginationData()  //получить значение PaginationData из localStorage
         if (response1) {
             dispatch( GithubActions.setPaginationDataAC(response1) )  //записать считаное из localStorage значение PaginationData в store
+        }
+    }
+}
+export const setSearchQueryThunkCreator = (SearchQuery: string) => {//санкреатор задания SearchQuery в LocalStorage и в стейт
+    return async (dispatch: Dispatch<GithubActionTypes>, getState: () => GlobalStateType) => { // санка задания SearchQuery в LocalStorage
+        const response1 = await apiCommon.putSearchQuery( SearchQuery )  //записать значение SearchQuery в localStorage
+        if (response1) {
+            dispatch( GithubActions.setSearchQueryAC(response1) )  //записать считаное из localStorage значение PaginationData в store
+        }
+    }
+}
+export const getSearchQueryThunkCreator = () => {//санкреатор получения SearchQuery из LocalStorage и в стейт
+    return async (dispatch: Dispatch<GithubActionTypes>, getState: () => GlobalStateType) => { // санка получения SearchQuery из LocalStorage
+        const response1 = await apiCommon.getSearchQuery()  //получить значение SearchQuery в localStorage
+        if (response1) {
+            dispatch( GithubActions.setSearchQueryAC(response1) )  //записать считаное из localStorage значение PaginationData в store
         }
     }
 }
