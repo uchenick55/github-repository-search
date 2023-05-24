@@ -9,10 +9,12 @@ type RepositoryItemType = {
     LastCommit:string | null
     Link: string | null | undefined
     id: string | null
+    ind: number
 }
-const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id})=>{
+const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id, ind})=>{
     const LocalDate:DataReturn2Type = GetDate(LastCommit? LastCommit:"")
     return <div className={s.RepositoryItemCommon}>
+        <div className={s.Repositoryid  + " " + s.PosAbs }>{ind+1}</div>
         <NavLink to={`/card/${id}`}>
             <div className={s.RepositoryItemName + " " + s.PosRelative}>{RepositoryName}</div> {/*имя*/}
         </NavLink>

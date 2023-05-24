@@ -9,7 +9,7 @@ type RenderSearchFieldType = {
 const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, SearchQuery}) => {
     const [inputValue, setInputValue] = useState<string>( SearchQuery )
     const checkEnterPressed = (event: React.KeyboardEvent) => { // проверка нажатия Enter
-        if (event.charCode==13) {
+        if (event.charCode===13) {
             setSearchQuery(inputValue)//задание статуса при нажатии Enter
         }
     }

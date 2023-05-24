@@ -14,7 +14,7 @@ export const apiCommon = { // объект с методами api для общ
     let Data1:PaginationDataType | null = JSON.parse(localStorage.getItem("PaginationData")); // получить PaginationData из LocalStorage
     if (!Data1) {
       Data1=initialStateGhList.PaginationData // задаем значение PaginationData по умолчанию
-      apiCommon.putPaginationData(Data1) // записываем PaginationData по умолчанию в localStorage если ее нет
+     // apiCommon.putPaginationData(Data1) // записываем PaginationData по умолчанию в localStorage если ее нет
     }
     return Data1 // вернуть PaginationData после считывания
   },
@@ -30,7 +30,7 @@ export const apiCommon = { // объект с методами api для общ
     let Data1:string = JSON.parse(localStorage.getItem("SearchQuery")); // получить SearchQuery из LocalStorage
     if (!Data1) {
       Data1=initialStateGhList.SearchQuery // задаем значение SearchQuery по умолчанию
-      apiCommon.putSearchQuery(Data1) // записываем SearchQuery по умолчанию в localStorage если ее нет
+     // apiCommon.putSearchQuery(Data1) // записываем SearchQuery по умолчанию в localStorage если ее нет
     }
     return Data1 // вернуть SearchQuery после считывания
   },

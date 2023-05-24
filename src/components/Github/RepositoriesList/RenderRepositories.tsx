@@ -9,10 +9,10 @@ type RenderRepositoriesType = {
     PaginationData: PaginationDataType // данныен пагинации для фильтрации
 }
 const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData, PaginationData}) => {
-
+    console.log("RenderRepositories")
     const RepositoriesDataFiltered: SearchResultDataType | MyRepositoriesDataType
         = RepositoriesData.filter((r, ind)=> // фильтрация всех загруженых репозиториев
-        ind>PaginationData.pageSize*(PaginationData.currentPage-1) && // с репозиториев по текущей странице
+        ind>=PaginationData.pageSize*(PaginationData.currentPage-1) && // с репозиториев по текущей странице
         ind<PaginationData.pageSize*PaginationData.currentPage // до репозиториев на pageSize больше
     )
 
@@ -24,9 +24,9 @@ const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData,
             <div className={s.RepositoryItemLinkHeader+ " " + s.PosAbs}>Ссылка на Github</div>
         </div>
 
-        {RepositoriesDataFiltered.map(m=>{
+        {RepositoriesDataFiltered.map((m, ind)=>{
             return <RepositoryItem
-                key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount}
+                key = {m.id} RepositoryName = {m.name} stars = {m.stargazers.totalCount} ind={ind}
                 LastCommit={
                     m.defaultBranchRef &&
                     m.defaultBranchRef.target.committedDate}

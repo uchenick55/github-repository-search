@@ -8,7 +8,7 @@ import Pagination from "./Pagination";
 export type GitHubCOMType = {
     MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
     SearchResultData: SearchResultDataType
-    PaginationData:PaginationDataType // данные пагинации
+    PaginationData: PaginationDataType // данные пагинации
     SearchQuery: string, // поле поиска
     setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
     setPaginationData: (PaginationData: PaginationDataType) => void //колбек задания данных пагинации в стейт
@@ -16,19 +16,18 @@ export type GitHubCOMType = {
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
     {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData, SearchQuery}) => {
-
+    const RepositoriesData: MyRepositoriesDataType | SearchResultDataType  = SearchQuery==="" ? MyRepositoriesData : SearchResultData
+    // const RepositoriesData: MyRepositoriesDataType | SearchResultDataType = MyRepositoriesData
 
     return <div className={s.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}
 
-            <RenderRepositories
-                RepositoriesData={SearchResultData.length > 0 ? SearchResultData : MyRepositoriesData}
-                PaginationData={PaginationData}  />
+            <RenderRepositories RepositoriesData={RepositoriesData} PaginationData={PaginationData}/>
             {/*отрисовка списка репозиториев*/}
 
-            <Pagination totalRepositoriesCount={SearchResultData.length} pageSize={PaginationData.pageSize}
-                                currentPage={PaginationData.currentPage}
+            <Pagination totalRepositoriesCount={RepositoriesData.length} pageSize={PaginationData.pageSize}
+                        currentPage={PaginationData.currentPage}
                         setPaginationData={setPaginationData} PaginationData={PaginationData}/>
 
         </div>
