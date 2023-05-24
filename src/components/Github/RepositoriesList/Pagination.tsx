@@ -6,11 +6,11 @@ type PaginationType = {
     totalRepositoriesCount: number,//
     pageSize: number,//
     currentPage: number,// текущая страница пагинации
-    setPaginationDataAC: (PaginationData: PaginationDataType) => void //экшн креатор задания данных пагинации в стейт
+    setPaginationData: (PaginationData: PaginationDataType) => void // колбек задания данных пагинации в стейт
     PaginationData: PaginationDataType
 }
 const Pagination: React.FC<PaginationType> = (
-    {totalRepositoriesCount, pageSize, currentPage, setPaginationDataAC, PaginationData}) => {
+    {totalRepositoriesCount, pageSize, currentPage, setPaginationData, PaginationData}) => {
 
     // currentRange - текущий диапазон. Он в PortionSize меньше PagesCount
     //setCurrentRange - изменение currentRange по клику на кнопку
@@ -30,7 +30,7 @@ const Pagination: React.FC<PaginationType> = (
                 className={`${s.PIC} ${p===PaginationData.currentPage? s.PaginationItemCurrent:s.PaginationItem}`} //стиль каждого элемента пагинации
                 key={p} // ключ - страница
                 onClick={() => { // по клику
-                    setPaginationDataAC( {...PaginationData, currentPage: p} )
+                    setPaginationData( {...PaginationData, currentPage: p} )
 
                     //  onPageChanged( p );  смена текущей старницы на кликнутую
                 }}

@@ -1,5 +1,6 @@
 import { InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
+import {getPaginationDataThunkCreator} from "./gh-list-reducer";
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_PATCH = "myApp/app-reducer/SET_PATCH"; //константа задания пути в URL
@@ -18,13 +19,13 @@ type AppActionTypes = InferActionsTypes<typeof AppActions>
 
 type initialStateType = typeof initialState
 
-let initialState = { //стейт по умолчанию для инициализации приложения
+const initialState = { //стейт по умолчанию для инициализации приложения
     initialisedApp: false, // флаг приложение инициализировано?
     patch: "", // название страницы из URL
 
 }
 
-let appReducer = (state: initialStateType = initialState, action: AppActionTypes): initialStateType => {//редьюсер инициализации приложения
+const appReducer = (state: initialStateType = initialState, action: AppActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
     switch (action.type) {
         case SET_INITIALISED_APP: // экшн инициализации приложения
@@ -47,7 +48,7 @@ let appReducer = (state: initialStateType = initialState, action: AppActionTypes
 
 export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// санкреатор инициализации приложения
     return (dispatch, getState) => { // санки  инициализации приложения
-        const promise1 = 123  //dispatch( getAuthMeThunkCreator()) проверка статуса авторизации
+        const promise1 = dispatch(getPaginationDataThunkCreator())// проверка статуса авторизации
         Promise.all( [promise1] ) // если все промисы зарезолвились
             .then( () => {
                 dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true

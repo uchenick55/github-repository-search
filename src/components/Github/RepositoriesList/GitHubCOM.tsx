@@ -10,11 +10,11 @@ export type GitHubCOMType = {
     SearchResultData: SearchResultDataType
     PaginationData:PaginationDataType // данные пагинации
     setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
-    setPaginationDataAC: (PaginationData: PaginationDataType) => void //экшн креатор задания данных пагинации в стейт
+    setPaginationData: (PaginationData: PaginationDataType) => void //колбек задания данных пагинации в стейт
 
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
-    {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationDataAC}) => {
+    {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData}) => {
 
 
     return <div className={s.ToCenter}> {/*  центруем*/}
@@ -28,7 +28,7 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
 
             <Pagination totalRepositoriesCount={SearchResultData.length} pageSize={PaginationData.pageSize}
                                 currentPage={PaginationData.currentPage}
-                                setPaginationDataAC={setPaginationDataAC} PaginationData={PaginationData}/>
+                        setPaginationData={setPaginationData} PaginationData={PaginationData}/>
 
         </div>
 

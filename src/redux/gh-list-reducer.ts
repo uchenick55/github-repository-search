@@ -1,4 +1,6 @@
-import {InferActionsTypes} from "./store-redux";
+import {GlobalStateType, InferActionsTypes} from "./store-redux";
+import {apiCommon} from "../api/apiLocalStorage";
+import {Dispatch} from "redux";
 
 const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //константа задания поискового запроса в стейт
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
@@ -14,9 +16,9 @@ export const GithubActions = {
 
 type GithubActionTypes = InferActionsTypes<typeof GithubActions>
 
-type initialStateType = typeof initialState
+type initialStateGhListType = typeof initialStateGhList
 
-let initialState = { //стейт по умолчанию с гитхаба
+export const initialStateGhList = { //стейт по умолчанию с гитхаба
     SearchQuery: "", // поисковый запрос после нажатия на ввоод поля ввода
     PaginationData: { // данные пагинации
         totalRepositoriesCount: 0, // общее число репозиториев, загруженых с сервера
@@ -1342,12 +1344,12 @@ let initialState = { //стейт по умолчанию с гитхаба
         }
         ],
 }
-export type MyRepositoriesDataType = typeof initialState.MyRepositoriesData
-export type SearchResultDataType = typeof initialState.SearchResultData
-export type PaginationDataType = typeof initialState.PaginationData
+export type MyRepositoriesDataType = typeof initialStateGhList.MyRepositoriesData
+export type SearchResultDataType = typeof initialStateGhList.SearchResultData
+export type PaginationDataType = typeof initialStateGhList.PaginationData
 
-let ghListReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
-    let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
+let ghListReducer = (state: initialStateGhListType = initialStateGhList, action: GithubActionTypes): initialStateGhListType => {//редьюсер инициализации приложения
+    let stateCopy: initialStateGhListType; // объявлениечасти части стейта до изменения редьюсером
     switch (action.type) {
         case SET_SEARCH_QUERY: // экшн задания поискового запроса в стейт
             stateCopy = {
@@ -1365,6 +1367,24 @@ let ghListReducer = (state: initialStateType = initialState, action: GithubActio
             return state; // по умолчанию стейт возврашается неизмененным
     }
 }
+
+export const setPaginationDataThunkCreator = (PaginationData: PaginationDataType) => {//санкреатор задания PaginationData в LocalStorage и в стейт
+    return async (dispatch: Dispatch<GithubActionTypes>, getState: () => GlobalStateType) => { // санка задания PaginationData в LocalStorage
+        const response1 = await apiCommon.putPaginationData( PaginationData )  //записать значение PaginationData в localStorage
+        if (response1) {
+            dispatch( GithubActions.setPaginationDataAC(response1) )  //записать считаное из localStorage значение PaginationData в store
+        }
+    }
+}
+export const getPaginationDataThunkCreator = () => {//санкреатор получения PaginationData из LocalStorage и запись в стейт
+    return async (dispatch: Dispatch<GithubActionTypes>, getState: () => GlobalStateType) => { // санка получения PaginationData из LocalStorage
+        const response1 = await apiCommon.getPaginationData()  //получить значение PaginationData из localStorage
+        if (response1) {
+            dispatch( GithubActions.setPaginationDataAC(response1) )  //записать считаное из localStorage значение PaginationData в store
+        }
+    }
+}
+
 
 export default ghListReducer;
 
