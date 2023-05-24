@@ -1,18 +1,16 @@
 import React from "react";
-import {PaginationDataType} from "../../../../redux/github-reducer";
-import s from "../Repositories.module.css"
+import {PaginationDataType} from "../../../redux/gh-list-reducer";
+import s from "./Repositories.module.css"
 
 type PaginationType = {
     totalRepositoriesCount: number,//
     pageSize: number,//
     currentPage: number,// текущая страница пагинации
-    PortionSize: number// количество отображаемых страниц
-    currentRangeLocal: number,
     setPaginationDataAC: (PaginationData: PaginationDataType) => void //экшн креатор задания данных пагинации в стейт
     PaginationData: PaginationDataType
 }
 const Pagination: React.FC<PaginationType> = (
-    {totalRepositoriesCount, pageSize, currentPage, currentRangeLocal, PortionSize, setPaginationDataAC, PaginationData}) => {
+    {totalRepositoriesCount, pageSize, currentPage, setPaginationDataAC, PaginationData}) => {
 
     // currentRange - текущий диапазон. Он в PortionSize меньше PagesCount
     //setCurrentRange - изменение currentRange по клику на кнопку

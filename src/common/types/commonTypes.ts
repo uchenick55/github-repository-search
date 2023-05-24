@@ -9,3 +9,5 @@ export type ComThunkTp<A extends Action> = ThunkAction<
     A // все типы ActionCreator
     >
 export type NulableType<n> = null | n // тип нулевой
+
+

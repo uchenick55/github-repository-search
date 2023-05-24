@@ -1,5 +1,4 @@
 import {InferActionsTypes} from "./store-redux";
-import {ComThunkTp} from "../common/types/commonTypes";
 
 const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //константа задания поискового запроса в стейт
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
@@ -23,8 +22,6 @@ let initialState = { //стейт по умолчанию с гитхаба
         totalRepositoriesCount: 0, // общее число репозиториев, загруженых с сервера
         pageSize: 10, // количество репозиториев на одной странице
         currentPage: 1, // текущая страница пагинации
-        currentRangeLocal: 1, // текущий диапазон страниц пагинации
-        PortionSize: 10  // количество отображаемых страниц
     },
     MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
         [
@@ -1344,37 +1341,12 @@ let initialState = { //стейт по умолчанию с гитхаба
             "__typename": "Repository"
         }
         ],
-    CardData: // заглушка, захардкодил карточку автора репозитория
-        {
-            "name": "multidiffusion-upscaler-for-automatic1111",
-            "stargazers": {"totalCount": 2311, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {"committedDate": "2023-05-22T19:44:01Z", "__typename": "Commit"},
-                "__typename": "Ref"
-            },
-            "owner": {
-                "avatarUrl": "https://avatars.githubusercontent.com/u/59076257?u=60308b91eaf54a0a6bafeb3413c5c13321888799&v=4",
-                "login": "pkuliyi2015",
-                "url": "https://github.com/pkuliyi2015",
-                "__typename": "User"
-            },
-            "languages": {
-                "nodes": [{"name": "Python", "__typename": "Language"}, {
-                    "name": "JavaScript",
-                    "__typename": "Language"
-                }], "__typename": "LanguageConnection"
-            },
-            "description": "Tiled Diffusion and VAE optimize, licensed under CC BY-NC-SA 4.0",
-            "url": "https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111",
-            "__typename": "Repository"
-        }
-
 }
 export type MyRepositoriesDataType = typeof initialState.MyRepositoriesData
 export type SearchResultDataType = typeof initialState.SearchResultData
 export type PaginationDataType = typeof initialState.PaginationData
 
-let githubReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
+let ghListReducer = (state: initialStateType = initialState, action: GithubActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
     switch (action.type) {
         case SET_SEARCH_QUERY: // экшн задания поискового запроса в стейт
@@ -1394,7 +1366,7 @@ let githubReducer = (state: initialStateType = initialState, action: GithubActio
     }
 }
 
-export default githubReducer;
+export default ghListReducer;
 
 
 

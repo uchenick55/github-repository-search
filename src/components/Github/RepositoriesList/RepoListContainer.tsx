@@ -2,9 +2,9 @@ import React, {useEffect} from "react";
 import {GlobalStateType} from "../../../redux/store-redux";
 import {connect} from "react-redux";
 import GitHubCOM from "./GitHubCOM";
-import {GithubActions, PaginationDataType} from "../../../redux/github-reducer";
+import ghListReducer, {GithubActions, PaginationDataType} from "../../../redux/gh-list-reducer";
 
-const GitHubContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
+const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {MyRepositoriesData, SearchResultData, setSearchQueryAC, PaginationData, setPaginationDataAC}) => {
     const setSearchQuery = (searchQuery: string) => {
         setSearchQueryAC( searchQuery )
@@ -19,10 +19,9 @@ const GitHubContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = 
 
 const mapStateToProps = (state: GlobalStateType) => {
     return {
-        MyRepositoriesData: state.github.MyRepositoriesData, // данные моего репозитория
-        SearchResultData: state.github.SearchResultData, // данные поиска репозиториев
-        CardData: state.github.CardData, //  карточка автора репозитория
-        PaginationData: state.github.PaginationData
+        MyRepositoriesData: state.ghList.MyRepositoriesData, // данные моего репозитория
+        SearchResultData: state.ghList.SearchResultData, // данные поиска репозиториев
+        PaginationData: state.ghList.PaginationData
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -37,5 +36,5 @@ export default connect<mapStateToPropsType,
     unknown,
     GlobalStateType>( mapStateToProps, {
     setSearchQueryAC, setPaginationDataAC
-} )( GitHubContainer );
+} )( RepoListContainer );
 // коннектим к app флаг и санки инициализации

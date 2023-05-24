@@ -1,4 +1,4 @@
-import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/github-reducer";
+import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css";
 import RepositoryItem from "./RepositoryItem";

@@ -1,12 +1,14 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleWare from 'redux-thunk'; // thunkMiddleWare позволяет диспатчить санки помимо экшенов дл обновления стейта
 import appReducer from "./app-reducer";
-import githubReducer from "./github-reducer"
+import ghListReducer from "./gh-list-reducer"
+import ghCardReducer from "./gh-card-reducer"
 
 
 let reducers = combineReducers({ // объединяем стейт редьюсеров в один объект store
     app: appReducer, // стейт инициализации приложения
-    github: githubReducer // данные с гитхаба
+    ghList: ghListReducer,// данные с гитхаба
+    ghCard: ghCardReducer // данные с гитхаба
 });
 
 // @ts-ignore

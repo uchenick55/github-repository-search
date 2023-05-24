@@ -1,9 +1,9 @@
-import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/github-reducer";
+import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css"
 import RenderRepositories from "./RenderRepositories";
 import RenderSearchField from "./RenderSearchField";
-import Pagination from "./Pagination/Pagination";
+import Pagination from "./Pagination";
 
 export type GitHubCOMType = {
     MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
@@ -28,8 +28,6 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
 
             <Pagination totalRepositoriesCount={SearchResultData.length} pageSize={PaginationData.pageSize}
                                 currentPage={PaginationData.currentPage}
-                                currentRangeLocal={PaginationData.currentRangeLocal}
-                                PortionSize={PaginationData.PortionSize}
                                 setPaginationDataAC={setPaginationDataAC} PaginationData={PaginationData}/>
 
         </div>
