@@ -8,6 +8,7 @@ const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //констан�
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
 const SET_MY_REPOSITORIES_DATA = "myApp/app-reducer/SET_MY_REPOSITORIES_DATA"; //константа задания MyRepositoriesData
 const SET_SEARCH_RESULT_DATA = "myApp/app-reducer/SET_SEARCH_RESULT_DATA"; //константа задания SearchResultData
+const SET_IS_FETCHING = "myApp/app-reducer/SET_IS_FETCHING"; //константа задания процесса загрузки
 
 export const GithubActions = {
     setSearchQueryAC: (SearchQuery: string) => { // экшн креатор задания поискового запроса в стейт
@@ -21,6 +22,9 @@ export const GithubActions = {
     },
     setSearchResultDataAC: (SearchResultData: Array<RepositoriesDataType>) => { // экшн креатор задания SearchResultData
         return {type: SET_SEARCH_RESULT_DATA, SearchResultData} as const
+    },
+    setIsFetchingAC: (IsFetching: boolean) => { // экшн креатор задания процесса загрузки
+        return {type: SET_IS_FETCHING, IsFetching} as const
     },
 }
 
@@ -39,6 +43,7 @@ export const initialStateGhList = { //стейт по умолчанию с ги
         [] as Array<RepositoriesDataType>,
     SearchResultData:  // заглушка, данные поиска репозиториев
         [] as Array<RepositoriesDataType>,
+    IsFetching:false // индикатор процесса загрузки
 }
 export type SearchResultDataType = typeof initialStateGhList.SearchResultData
 export type PaginationDataType = typeof initialStateGhList.PaginationData
@@ -61,13 +66,21 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
         case SET_MY_REPOSITORIES_DATA: // экшн задания MyRepositoriesData
             stateCopy = {
                 ...state, // копия всего стейта
-                MyRepositoriesData: action.MyRepositoriesData
+                MyRepositoriesData: action.MyRepositoriesData,
+                IsFetching: false
             }
             return stateCopy; // возврат копии стейта после изменения
         case SET_SEARCH_RESULT_DATA: // экшн задания SearchResultData
             stateCopy = {
                 ...state, // копия всего стейта
-                SearchResultData: action.SearchResultData
+                SearchResultData: action.SearchResultData,
+                IsFetching: false
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_IS_FETCHING: // экшн задания индикатора загрузки
+            stateCopy = {
+                ...state, // копия всего стейта
+                IsFetching: action.IsFetching
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
@@ -124,6 +137,7 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return async (dispatch, getState) => { // санка
         console.log( "получение MyRepositoriesData с gitHub через axios/grapgQl" )
+        dispatch( GithubActions.setIsFetchingAC(true)) // начать процесс загрузки
         const response1:Array<RepositoriesDataType> = await gitHubQuery.getStarredRepos()  //получить MyRepositoriesData с gitHub через axios/grapgQl
         dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) )  //записать полученное MyRepositoriesData с gitHub в store
     }
@@ -131,6 +145,7 @@ export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {/
 export const getSearchResultDataThCr = (SearchQuery:string): ComThunkTp<GithubActionTypes> => {//санкреатор получения SearchResultData с gitHub через axios/grapgQl
     return async (dispatch, getState) => { // санка
         console.log( "получение SearchResultData с gitHub через axios/grapgQl" )
+        dispatch( GithubActions.setIsFetchingAC(true)) // начать процесс загрузки
         const response1:Array<any> = await gitHubQuery.searchRepos(SearchQuery)  //получить SearchResultData с gitHub через axios/grapgQl
         console.log("searchRepos", response1)
          dispatch( GithubActions.setSearchResultDataAC( response1 ) )  //записать полученное SearchResultData с gitHub в store

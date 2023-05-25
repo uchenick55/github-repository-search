@@ -10,7 +10,7 @@ import {
 
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {MyRepositoriesData, SearchResultData, PaginationData,
-        setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery}) => {
+        setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery, IsFetching}) => {
 
     const setSearchQuery = (searchQuery: string) => {
         //GithubActions.setSearchResultDataAC([])
@@ -25,7 +25,9 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
     return <div>
         <GitHubCOM MyRepositoriesData={MyRepositoriesData} SearchResultData={SearchResultData}
                    setSearchQuery={setSearchQuery} PaginationData={PaginationData}
-                   setPaginationData={setPaginationData} SearchQuery={SearchQuery}/>
+                   setPaginationData={setPaginationData} SearchQuery={SearchQuery}
+                   IsFetching={IsFetching}
+        />
     </div>
 }
 
@@ -35,6 +37,7 @@ const mapStateToProps = (state: GlobalStateType) => {
         SearchResultData: state.ghList.SearchResultData, // данные поиска репозиториев
         PaginationData: state.ghList.PaginationData, //данные для пагинации
         SearchQuery: state.ghList.SearchQuery, // значение поля поиска (после ввода)
+        IsFetching:state.ghList.IsFetching, // индикатор процесса загрузки
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
