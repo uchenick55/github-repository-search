@@ -4,10 +4,10 @@ import s from "./Repositories.module.css"
 import RenderRepositories from "./RenderRepositories";
 import RenderSearchField from "./RenderSearchField";
 import Pagination from "./Pagination";
-import {MyRepositoriesDataType} from "../../../common/types/commonTypes";
+import {RepositoriesDataType} from "../../../common/types/commonTypes";
 
 export type GitHubCOMType = {
-    MyRepositoriesData: Array<MyRepositoriesDataType> , // автополучение типа входящих данных моих репозиториев
+    MyRepositoriesData: Array<RepositoriesDataType> , // автополучение типа входящих данных моих репозиториев
     SearchResultData: SearchResultDataType
     PaginationData: PaginationDataType // данные пагинации
     SearchQuery: string, // поле поиска
@@ -17,7 +17,7 @@ export type GitHubCOMType = {
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
     {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData, SearchQuery}) => {
-     const RepositoriesData: MyRepositoriesDataType | SearchResultDataType  = SearchQuery==="" ? MyRepositoriesData : SearchResultData
+     const RepositoriesData: RepositoriesDataType | SearchResultDataType  = SearchQuery==="" ? MyRepositoriesData : SearchResultData
     // const RepositoriesData: Array<MyRepositoriesDataType>  = MyRepositoriesData
 
     return <div className={s.ToCenter}> {/*  центруем*/}

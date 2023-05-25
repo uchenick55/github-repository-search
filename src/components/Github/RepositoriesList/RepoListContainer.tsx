@@ -3,6 +3,7 @@ import {GlobalStateType} from "../../../redux/store-redux";
 import {connect} from "react-redux";
 import GitHubCOM from "./GitHubCOM";
 import {
+    GithubActions,
     PaginationDataType,
     setPaginationDataThunkCreator, setSearchQueryThunkCreator
 } from "../../../redux/gh-list-reducer";
@@ -12,7 +13,9 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
         setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery}) => {
 
     const setSearchQuery = (searchQuery: string) => {
+        //GithubActions.setSearchResultDataAC([])
         setSearchQueryThunkCreator(searchQuery)
+
     }
 
     const setPaginationData = (PaginationData: PaginationDataType) => {

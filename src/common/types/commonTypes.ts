@@ -11,7 +11,7 @@ export type ComThunkTp<A extends Action> = ThunkAction<
 export type NulableType<n> = null | n // тип нулевой
 
 
-export type MyRepositoriesDataType = {
+export type RepositoriesDataType = {
     id: string,
     name: string,
     url: string,
@@ -28,3 +28,4 @@ export type MyRepositoriesDataType = {
     },
     __typename: string
 }
+

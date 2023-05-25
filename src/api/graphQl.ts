@@ -1,5 +1,5 @@
 import axios from "axios";
-import {MyRepositoriesDataType} from "../common/types/commonTypes";
+import {RepositoriesDataType} from "../common/types/commonTypes";
 
 const GITHUB_TOKEN: string = "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"
 
@@ -121,7 +121,7 @@ async function getGitHubData(queryLocal: string, variables: object) {
 type GetReposType = {
     search: {
         repositoryCount: number,
-        nodes: Array<MyRepositoriesDataType>,
+        nodes: Array<RepositoriesDataType>,
         __typename: string
     }
 }
@@ -136,7 +136,6 @@ export const gitHubQuery = { // общий объект с методами за
             getQuery: `${searchQuery} sort:stars`,
         }
         const response:GetReposType = await getGitHubData( query2, variablesLocal )
-        console.log("searchRepos", response.search.nodes)
         return (response.search.nodes) //возврат данных из поля data
     },
     getCardData: async (cardId: string) => {// получить данные карточки репозитория с гитхаб
