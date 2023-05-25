@@ -27,7 +27,7 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
 
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}
 
-            <RenderRepositories RepositoriesData={RepositoriesData} PaginationData={PaginationData}/>
+            {RepositoriesData.length>0 && <RenderRepositories RepositoriesData={RepositoriesData} PaginationData={PaginationData}/>}
             {/*отрисовка списка репозиториев*/}
 
             <Pagination totalRepositoriesCount={RepositoriesData.length} pageSize={PaginationData.pageSize}

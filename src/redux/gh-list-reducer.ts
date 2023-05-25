@@ -115,10 +115,9 @@ export const setSearchQueryThunkCreator = (SearchQuery: string): ComThunkTp<Gith
         const response1 = await apiCommon.putSearchQuery( SearchQuery )  //записать значение SearchQuery в localStorage
         console.log( "запись SearchQuery в стейт" )
         dispatch( GithubActions.setSearchQueryAC( response1 ) )  //записать считаное из localStorage значение PaginationData в store
-        if (response1 === "") {
-            console.log( "поле поиска пустое, запускаем зануление  PaginationData LocalStorage и state" )
-            dispatch(setPaginationDataThunkCreator(initialStateGhList.PaginationData))
-        }
+
+        dispatch(setPaginationDataThunkCreator(initialStateGhList.PaginationData)) // зануление пагинации при новом поисковом запросе
+
         if (response1 !== "") { // при непустом поисковом запросе
             console.log( "записали новое SearchQuery в стейт, запускаем получение данных graphQl с сервера" )
             dispatch(getSearchResultDataThCr(SearchQuery))  // получить данные с сервера SearchResultData
@@ -136,7 +135,6 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 }
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return async (dispatch, getState) => { // санка
-        console.log( "получение MyRepositoriesData с gitHub через axios/grapgQl" )
         dispatch( GithubActions.setIsFetchingAC(true)) // начать процесс загрузки
         const response1:Array<RepositoriesDataType> = await gitHubQuery.getStarredRepos()  //получить MyRepositoriesData с gitHub через axios/grapgQl
         dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) )  //записать полученное MyRepositoriesData с gitHub в store
