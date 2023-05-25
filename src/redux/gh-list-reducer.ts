@@ -118,6 +118,8 @@ export const setSearchQueryThunkCreator = (SearchQuery: string): ComThunkTp<Gith
 
         dispatch(setPaginationDataThunkCreator(initialStateGhList.PaginationData)) // зануление пагинации при новом поисковом запросе
 
+        dispatch(GithubActions.setSearchResultDataAC( [] )) // зануление SearchResultData при новом поисковом запросе
+
         if (response1 !== "") { // при непустом поисковом запросе
             console.log( "записали новое SearchQuery в стейт, запускаем получение данных graphQl с сервера" )
             dispatch(getSearchResultDataThCr(SearchQuery))  // получить данные с сервера SearchResultData

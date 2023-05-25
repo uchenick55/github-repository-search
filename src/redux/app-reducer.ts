@@ -48,9 +48,8 @@ const appReducer = (state: initialStateType = initialState, action: AppActionTyp
 
 export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// санкреатор инициализации приложения
     return (dispatch, getState) => { // санки  инициализации приложения
-        const promise1 = dispatch(getPaginationDataThunkCreator())// проверка статуса авторизации
-        const promise2 = dispatch(getSearchQueryThunkCreator())// проверка статуса авторизации
-        //const promise3 = dispatch(getMyRepositoriesDataThCr())// проверка получить данные моих репозиториев
+        const promise1 = dispatch(getPaginationDataThunkCreator())// получить данные по пагинации
+        const promise2 = dispatch(getSearchQueryThunkCreator())// получить данные по поисковому запросу
         Promise.all( [promise1, promise2] ) // если все промисы зарезолвились
             .then( () => {
                 dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true

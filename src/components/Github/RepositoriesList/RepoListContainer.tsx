@@ -27,6 +27,7 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
             console.log("разово получить данные по моим репозиториям")
             getMyRepositoriesDataThCr()
         } else {
+            console.log("разово получить данные по поисковому запросу")
             getSearchResultDataThCr(SearchQuery)
         }
     },[])
