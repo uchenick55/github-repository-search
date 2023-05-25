@@ -119,3 +119,17 @@
 .Repositoryid {
   left: -0.5rem;
 }
+
+.NotFoundText {
+    position: absolute;
+    top:10rem;
+    left:40%;
+    color: maroon;
+    font-size: 1rem;
+}
+.NotFoundImg {
+    position: absolute;
+    top:5rem;
+    left:45%;
+    width: 4rem;
+}
