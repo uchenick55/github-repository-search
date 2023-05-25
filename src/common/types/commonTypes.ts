@@ -11,3 +11,20 @@ export type ComThunkTp<A extends Action> = ThunkAction<
 export type NulableType<n> = null | n // тип нулевой
 
 
+export type MyRepositoriesDataType = {
+    id: string,
+    name: string,
+    url: string,
+    stargazers: {
+        totalCount: number,
+        __typename: string
+    },
+    defaultBranchRef: {
+        target: {
+            committedDate: string,
+            __typename: string
+        },
+        __typename: string
+    },
+    __typename: string
+}

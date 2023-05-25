@@ -1,10 +1,12 @@
 import {GlobalStateType, InferActionsTypes} from "./store-redux";
 import {apiCommon} from "../api/apiLocalStorage";
 import {Dispatch} from "redux";
-import {ComThunkTp} from "../common/types/commonTypes";
+import {ComThunkTp, MyRepositoriesDataType} from "../common/types/commonTypes";
+import {gitHubQuery} from "../api/graphQl";
 
 const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //константа задания поискового запроса в стейт
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
+const SET_MY_REPOSITORIES_DATA = "myApp/app-reducer/SET_MY_REPOSITORIES_DATA"; //константа задания MyRepositoriesData
 
 export const GithubActions = {
     setSearchQueryAC: (SearchQuery: string) => { // экшн креатор задания поискового запроса в стейт
@@ -12,6 +14,9 @@ export const GithubActions = {
     },
     setPaginationDataAC: (PaginationData: PaginationDataType) => { // экшн креатор задания объекта с данными пагинации в стейт
         return {type: SET_PAGINATION_DATA, PaginationData} as const
+    },
+    setMyRepositoriesDataAC: (MyRepositoriesData: Array<MyRepositoriesDataType>) => { // экшн креатор задания MyRepositoriesData
+        return {type: SET_MY_REPOSITORIES_DATA, MyRepositoriesData} as const
     },
 }
 
@@ -27,129 +32,7 @@ export const initialStateGhList = { //стейт по умолчанию с ги
         currentPage: 1, // текущая страница пагинации
     },
     MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
-        [
-            {
-                "id": "MDEwOlJlcG9zaXRvcnkyODQ1NzgyMw==",
-                "name": "freeCodeCamp",
-                "url": "https://github.com/freeCodeCamp/freeCodeCamp",
-                "stargazers": {"totalCount": 367219, "__typename": "StargazerConnection"},
-                "defaultBranchRef": {
-                    "target": {
-                        "committedDate": "2023-05-22T14:14:31Z",
-                        "__typename": "Commit"
-                    }, "__typename": "Ref"
-                },
-                "__typename": "Repository"
-            }, {
-            "id": "MDEwOlJlcG9zaXRvcnkxMzQ5MTg5NQ==",
-            "name": "free-programming-books",
-            "url": "https://github.com/EbookFoundation/free-programming-books",
-            "stargazers": {"totalCount": 280310, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-15T14:13:34Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnkxNzc3MzY1MzM=",
-            "name": "996.ICU",
-            "url": "https://github.com/996icu/996.ICU",
-            "stargazers": {"totalCount": 265883, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2022-01-25T17:24:10Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnk2MDQ5MzEwMQ==",
-            "name": "coding-interview-university",
-            "url": "https://github.com/jwasham/coding-interview-university",
-            "stargazers": {"totalCount": 257954, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-15T19:01:50Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnkyMTczNzQ2NQ==",
-            "name": "awesome",
-            "url": "https://github.com/sindresorhus/awesome",
-            "stargazers": {"totalCount": 254926, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-21T08:17:18Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnk1NDM0Njc5OQ==",
-            "name": "public-apis",
-            "url": "https://github.com/public-apis/public-apis",
-            "stargazers": {"totalCount": 240751, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2022-07-19T13:39:16Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnk4NTA3NzU1OA==",
-            "name": "developer-roadmap",
-            "url": "https://github.com/kamranahmedse/developer-roadmap",
-            "stargazers": {"totalCount": 240121, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-22T18:59:38Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnk4MzIyMjQ0MQ==",
-            "name": "system-design-primer",
-            "url": "https://github.com/donnemartin/system-design-primer",
-            "stargazers": {"totalCount": 220653, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-03-16T09:58:19Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnkxMDI3MDI1MA==",
-            "name": "react",
-            "url": "https://github.com/facebook/react",
-            "stargazers": {"totalCount": 207812, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-05-23T02:56:17Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }, {
-            "id": "MDEwOlJlcG9zaXRvcnkxMTczMDM0Mg==",
-            "name": "vue",
-            "url": "https://github.com/vuejs/vue",
-            "stargazers": {"totalCount": 203713, "__typename": "StargazerConnection"},
-            "defaultBranchRef": {
-                "target": {
-                    "committedDate": "2023-04-27T09:43:19Z",
-                    "__typename": "Commit"
-                }, "__typename": "Ref"
-            },
-            "__typename": "Repository"
-        }
-        ],
+        [] as Array<MyRepositoriesDataType>,
     SearchResultData:  // заглушка, данные поиска репозиториев
         [
             {
@@ -1345,7 +1228,6 @@ export const initialStateGhList = { //стейт по умолчанию с ги
         }
         ],
 }
-export type MyRepositoriesDataType = typeof initialStateGhList.MyRepositoriesData
 export type SearchResultDataType = typeof initialStateGhList.SearchResultData
 export type PaginationDataType = typeof initialStateGhList.PaginationData
 
@@ -1362,6 +1244,12 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
             stateCopy = {
                 ...state, // копия всего стейта
                 PaginationData: action.PaginationData
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_MY_REPOSITORIES_DATA: // экшн задания MyRepositoriesData
+            stateCopy = {
+                ...state, // копия всего стейта
+                MyRepositoriesData: action.MyRepositoriesData
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
@@ -1411,6 +1299,14 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
         dispatch( GithubActions.setSearchQueryAC( response1 ) )  //записать считаное из localStorage значение PaginationData в store
     }
 }
+export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
+    return async (dispatch, getState) => { // санка
+        console.log( "получение MyRepositoriesData с gitHub через axios/grapgQl" )
+        const response1:Array<MyRepositoriesDataType> = await gitHubQuery.getStarredRepos()  //получить MyRepositoriesData с gitHub через axios/grapgQl
+        dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) )  //записать полученное MyRepositoriesData с gitHub в store
+    }
+}
+
 
 
 export default ghListReducer;

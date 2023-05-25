@@ -1,12 +1,13 @@
-import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
+import {PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css"
 import RenderRepositories from "./RenderRepositories";
 import RenderSearchField from "./RenderSearchField";
 import Pagination from "./Pagination";
+import {MyRepositoriesDataType} from "../../../common/types/commonTypes";
 
 export type GitHubCOMType = {
-    MyRepositoriesData: MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
+    MyRepositoriesData: Array<MyRepositoriesDataType> , // автополучение типа входящих данных моих репозиториев
     SearchResultData: SearchResultDataType
     PaginationData: PaginationDataType // данные пагинации
     SearchQuery: string, // поле поиска
@@ -16,8 +17,8 @@ export type GitHubCOMType = {
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
     {MyRepositoriesData, SearchResultData, setSearchQuery, PaginationData, setPaginationData, SearchQuery}) => {
-    const RepositoriesData: MyRepositoriesDataType | SearchResultDataType  = SearchQuery==="" ? MyRepositoriesData : SearchResultData
-    // const RepositoriesData: MyRepositoriesDataType | SearchResultDataType = MyRepositoriesData
+     const RepositoriesData: MyRepositoriesDataType | SearchResultDataType  = SearchQuery==="" ? MyRepositoriesData : SearchResultData
+    // const RepositoriesData: Array<MyRepositoriesDataType>  = MyRepositoriesData
 
     return <div className={s.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>

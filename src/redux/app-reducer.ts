@@ -1,6 +1,6 @@
 import { InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
-import {getPaginationDataThunkCreator, getSearchQueryThunkCreator} from "./gh-list-reducer";
+import {getMyRepositoriesDataThCr, getPaginationDataThunkCreator, getSearchQueryThunkCreator} from "./gh-list-reducer";
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_PATCH = "myApp/app-reducer/SET_PATCH"; //константа задания пути в URL
@@ -50,6 +50,7 @@ export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// 
     return (dispatch, getState) => { // санки  инициализации приложения
         const promise1 = dispatch(getPaginationDataThunkCreator())// проверка статуса авторизации
         const promise2 = dispatch(getSearchQueryThunkCreator())// проверка статуса авторизации
+        const promise3 = dispatch(getMyRepositoriesDataThCr())// проверка получить данные моих репозиториев
         Promise.all( [promise1, promise2] ) // если все промисы зарезолвились
             .then( () => {
                 dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true

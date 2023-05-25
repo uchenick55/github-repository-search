@@ -1,11 +1,12 @@
-import {MyRepositoriesDataType, PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
+import {PaginationDataType, SearchResultDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css";
 import RepositoryItem from "./RepositoryItem";
+import {MyRepositoriesDataType} from "../../../common/types/commonTypes";
 
 
 type RenderRepositoriesType = {
-    RepositoriesData: SearchResultDataType | MyRepositoriesDataType, // автополучение типа входящих данных моих репозиториев
+    RepositoriesData: SearchResultDataType | Array<MyRepositoriesDataType>, // автополучение типа входящих данных моих репозиториев
     PaginationData: PaginationDataType // данныен пагинации для фильтрации
 }
 const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData, PaginationData}) => {

@@ -10,6 +10,7 @@ import {
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {MyRepositoriesData, SearchResultData, PaginationData,
         setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery}) => {
+
     const setSearchQuery = (searchQuery: string) => {
         setSearchQueryThunkCreator(searchQuery)
     }
