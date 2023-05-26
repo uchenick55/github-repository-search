@@ -3,14 +3,14 @@ import {ComThunkTp} from "../common/types/commonTypes";
 import {getMyRepositoriesDataThCr, getPaginationDataThunkCreator, getSearchQueryThunkCreator} from "./gh-list-reducer";
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
-const SET_PATCH = "myApp/app-reducer/SET_PATCH"; //константа задания пути в URL
+const SET_IS_FETCHING = "myApp/app-reducer/SET_IS_FETCHING"; //константа задания процесса загрузки
 
 export const AppActions = {
     setInitialisedApp: () => { // экшн креатор  инициализации приложения
         return {type: SET_INITIALISED_APP} as const
     },
-    setPatch: (patch: string) => { // экшн зануления при логауте
-        return {type: SET_PATCH, patch} as const
+    setIsFetchingAC: (IsFetching: boolean) => { // экшн креатор задания процесса загрузки
+        return {type: SET_IS_FETCHING, IsFetching} as const
     },
 
 }
@@ -21,7 +21,7 @@ type initialStateType = typeof initialState
 
 const initialState = { //стейт по умолчанию для инициализации приложения
     initialisedApp: false, // флаг приложение инициализировано?
-    patch: "", // название страницы из URL
+    IsFetching: false // индикатор процесса загрузки
 
 }
 
@@ -34,13 +34,12 @@ const appReducer = (state: initialStateType = initialState, action: AppActionTyp
                 initialisedApp: true, // смена флага инициализации приложения на true
             }
             return stateCopy; // возврат копии стейта после изменения
-        case SET_PATCH: // экшн задания пути из URL
+        case SET_IS_FETCHING: // экшн задания индикатора загрузки
             stateCopy = {
                 ...state, // копия всего стейта
-                patch: action.patch, // задание пути
+                IsFetching: action.IsFetching
             }
             return stateCopy; // возврат копии стейта после изменения
-
         default:
             return state; // по умолчанию стейт возврашается неизмененным
     }

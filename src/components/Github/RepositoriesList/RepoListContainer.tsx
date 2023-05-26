@@ -52,7 +52,7 @@ const mapStateToProps = (state: GlobalStateType) => {
         SearchResultData: state.ghList.SearchResultData, // данные поиска репозиториев
         PaginationData: state.ghList.PaginationData, //данные для пагинации
         SearchQuery: state.ghList.SearchQuery, // значение поля поиска (после ввода)
-        IsFetching:state.ghList.IsFetching, // индикатор процесса загрузки
+        IsFetching:state.app.IsFetching, // индикатор процесса загрузки
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
