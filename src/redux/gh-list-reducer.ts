@@ -40,14 +40,9 @@ export const initialStateGhList = { //стейт по умолчанию с ги
         pageSize: 10, // количество репозиториев на одной странице
         currentPage: 1, // текущая страница пагинации
     },
-    MyRepositoriesData: // список вместо моих репозиториев для примера
-        [] as Array<RepositoriesDataType>,
-    SearchResultData:  // данные поиска репозиториев
-        [] as Array<RepositoriesDataType>,
     RepositoriesData: // данные по всем репозиториям (либо мои репозитории, либо результаты поиска)
         [] as Array<RepositoriesDataType>,
 }
-export type SearchResultDataType = typeof initialStateGhList.SearchResultData
 export type PaginationDataType = typeof initialStateGhList.PaginationData
 
 let ghListReducer = (state: initialStateGhListType = initialStateGhList, action: GithubActionTypes): initialStateGhListType => {//редьюсер инициализации приложения
@@ -63,18 +58,6 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
             stateCopy = {
                 ...state, // копия всего стейта
                 PaginationData: action.PaginationData
-            }
-            return stateCopy; // возврат копии стейта после изменения
-        case SET_MY_REPOSITORIES_DATA: // экшн задания MyRepositoriesData
-            stateCopy = {
-                ...state, // копия всего стейта
-                MyRepositoriesData: action.MyRepositoriesData,
-            }
-            return stateCopy; // возврат копии стейта после изменения
-        case SET_SEARCH_RESULT_DATA: // экшн задания SearchResultData
-            stateCopy = {
-                ...state, // копия всего стейта
-                SearchResultData: action.SearchResultData,
             }
             return stateCopy; // возврат копии стейта после изменения
         case SET_REPOSITORIES_DATA: // экшн задания RepositoriesData
@@ -118,7 +101,7 @@ export const setSearchQueryThunkCreator = (SearchQuery: string): ComThunkTp<Gith
 
         dispatch( setPaginationDataThunkCreator( initialStateGhList.PaginationData ) ) // зануление пагинации при новом поисковом запросе
 
-        dispatch( GithubActions.setSearchResultDataAC( [] ) ) // зануление SearchResultData при новом поисковом запросе
+        dispatch( GithubActions.setRepositoriesDataAC( [] ) ) // зануление SearchResultData при новом поисковом запросе
 
         if (response1 !== "") { // при непустом поисковом запросе
             console.log( "записали новое SearchQuery в стейт, запускаем получение данных graphQl с сервера" )

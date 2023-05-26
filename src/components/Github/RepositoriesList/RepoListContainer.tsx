@@ -10,9 +10,8 @@ import {
 } from "../../../redux/gh-list-reducer";
 
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
-    {MyRepositoriesData, SearchResultData, PaginationData,
-        setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery, IsFetching,
-        getMyRepositoriesDataThCr, getSearchResultDataThCr}) => {
+    { PaginationData, setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery,
+        IsFetching, getMyRepositoriesDataThCr, getSearchResultDataThCr, RepositoriesData}) => {
 
     const setSearchQuery = (searchQuery: string) => {
         setSearchQueryThunkCreator(searchQuery)
@@ -23,11 +22,11 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
     }
 
     useEffect(()=>{
-        if (SearchQuery==="" && MyRepositoriesData.length===0) {
-            console.log("разово получить данные по моим репозиториям")
+        if (SearchQuery==="") {
+            console.log("получить данные по моим репозиториям")
             getMyRepositoriesDataThCr()
         } else {
-            console.log("разово получить данные по поисковому запросу")
+            console.log("получить данные по поисковому запросу")
             getSearchResultDataThCr(SearchQuery)
         }
     },[SearchQuery])
@@ -38,21 +37,20 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
 
 
     return <div>
-        <GitHubCOM MyRepositoriesData={MyRepositoriesData} SearchResultData={SearchResultData}
-                   setSearchQuery={setSearchQuery} PaginationData={PaginationData}
+        <GitHubCOM setSearchQuery={setSearchQuery} PaginationData={PaginationData}
                    setPaginationData={setPaginationData} SearchQuery={SearchQuery}
-                   IsFetching={IsFetching}
+                   IsFetching={IsFetching} RepositoriesData={RepositoriesData}
         />
     </div>
 }
 
 const mapStateToProps = (state: GlobalStateType) => {
     return {
-        MyRepositoriesData: state.ghList.MyRepositoriesData, // данные моего репозитория
-        SearchResultData: state.ghList.SearchResultData, // данные поиска репозиториев
         PaginationData: state.ghList.PaginationData, //данные для пагинации
         SearchQuery: state.ghList.SearchQuery, // значение поля поиска (после ввода)
         IsFetching:state.app.IsFetching, // индикатор процесса загрузки
+        RepositoriesData: state.ghList.RepositoriesData, // данные списка репозиториев моих, либо поиска
+
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
