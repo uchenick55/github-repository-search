@@ -1,7 +1,7 @@
 import React from "react";
-import {CardDataType} from "../../../redux/gh-card-reducer";
 import s from "./CardCommon.module.css"
 import GetDate, {DataReturn2Type} from "../../../common/GetDate/GetDate";
+import {CardDataType} from "../../../common/types/commonTypes";
 
 export type CardCommonType = {
     CardData: CardDataType
