@@ -1,6 +1,5 @@
-import {GlobalStateType, InferActionsTypes} from "./store-redux";
+import {InferActionsTypes} from "./store-redux";
 import {apiCommon} from "../api/apiLocalStorage";
-import {Dispatch} from "redux";
 import {ComThunkTp, RepositoriesDataType} from "../common/types/commonTypes";
 import {gitHubQuery} from "../api/graphQl";
 import {AppActions} from "./app-reducer";
@@ -9,6 +8,7 @@ const SET_SEARCH_QUERY = "myApp/app-reducer/SET_SEARCH_QUERY"; //констан�
 const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //константа задания данных пагинации
 const SET_MY_REPOSITORIES_DATA = "myApp/app-reducer/SET_MY_REPOSITORIES_DATA"; //константа задания MyRepositoriesData
 const SET_SEARCH_RESULT_DATA = "myApp/app-reducer/SET_SEARCH_RESULT_DATA"; //константа задания SearchResultData
+const SET_REPOSITORIES_DATA = "myApp/app-reducer/SET_REPOSITORIES_DATA"; //константа задания RepositoriesData
 
 export const GithubActions = {
     setSearchQueryAC: (SearchQuery: string) => { // экшн креатор задания поискового запроса в стейт
@@ -23,6 +23,10 @@ export const GithubActions = {
     setSearchResultDataAC: (SearchResultData: Array<RepositoriesDataType>) => { // экшн креатор задания SearchResultData
         return {type: SET_SEARCH_RESULT_DATA, SearchResultData} as const
     },
+    setRepositoriesDataAC: (RepositoriesData: Array<RepositoriesDataType>) => { // экшн креатор задания MyRepositoriesData
+        return {type: SET_REPOSITORIES_DATA, RepositoriesData} as const
+    },
+
 }
 
 type GithubActionTypes = InferActionsTypes<typeof GithubActions> | InferActionsTypes<typeof AppActions>
@@ -36,9 +40,11 @@ export const initialStateGhList = { //стейт по умолчанию с ги
         pageSize: 10, // количество репозиториев на одной странице
         currentPage: 1, // текущая страница пагинации
     },
-    MyRepositoriesData: // заглушка, пока захардкодил список вместо моих репозиториев для примера
+    MyRepositoriesData: // список вместо моих репозиториев для примера
         [] as Array<RepositoriesDataType>,
-    SearchResultData:  // заглушка, данные поиска репозиториев
+    SearchResultData:  // данные поиска репозиториев
+        [] as Array<RepositoriesDataType>,
+    RepositoriesData: // данные по всем репозиториям (либо мои репозитории, либо результаты поиска)
         [] as Array<RepositoriesDataType>,
 }
 export type SearchResultDataType = typeof initialStateGhList.SearchResultData
@@ -69,6 +75,12 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
             stateCopy = {
                 ...state, // копия всего стейта
                 SearchResultData: action.SearchResultData,
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_REPOSITORIES_DATA: // экшн задания RepositoriesData
+            stateCopy = {
+                ...state, // копия всего стейта
+                RepositoriesData: action.RepositoriesData,
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
@@ -128,6 +140,7 @@ export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {/
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
         gitHubQuery.getStarredRepos().then( (response1: Array<RepositoriesDataType>) => {
                 dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
+                dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
                 dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
             }
         )
@@ -140,6 +153,7 @@ export const getSearchResultDataThCr = (SearchQuery: string): ComThunkTp<GithubA
         gitHubQuery.searchRepos( SearchQuery ).then((response1: Array<RepositoriesDataType>)=>{
             console.log( "searchRepos", response1 )
             dispatch( GithubActions.setSearchResultDataAC( response1 ) )  //записать полученное SearchResultData с gitHub в store
+            dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное SearchResultData с gitHub в store
             dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
         })
     }
