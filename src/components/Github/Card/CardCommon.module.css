@@ -9,4 +9,21 @@
     background-color: aqua ;
     border-radius: 0.5rem;
     padding: 1rem;
+    position: relative;
+}
+
+.imgAvatar {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    border-radius: 0.5rem;
+    width: 9rem;
+    height: 9rem;
+}
+.otherData {
+    position: relative;
+    left: 12rem;
+    top: 0;
+    max-width: 27rem;
+    overflow: hidden; /*все что длиннее - обрезаем*/
 }
