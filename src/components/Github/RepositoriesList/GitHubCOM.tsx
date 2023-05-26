@@ -22,25 +22,26 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
     return <div className={s.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>
             {IsFetching && <Preloader/>}
-
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}
 
-            {RepositoriesData.length>0
-                ? <RenderRepositories RepositoriesData={RepositoriesData} PaginationData={PaginationData}/>
-                : <div>
-                    {!IsFetching && <div>
-                        <div className={s.NotFoundText}>Ничего не найдено</div>
-                        <img className={s.NotFoundImg} src={notFound2} alt=""/>
-                    </div>}
+            {!IsFetching && <div>
 
-                </div>
-            }
-            {/*отрисовка списка репозиториев*/}
+                {RepositoriesData.length>0
+                    ? <RenderRepositories RepositoriesData={RepositoriesData} PaginationData={PaginationData}/>
+                    : <div>
+                        {!IsFetching && <div>
+                            <div className={s.NotFoundText}>Ничего не найдено</div>
+                            <img className={s.NotFoundImg} src={notFound2} alt=""/>
+                        </div>}
 
-            <Pagination totalRepositoriesCount={RepositoriesData.length} pageSize={PaginationData.pageSize}
-                        currentPage={PaginationData.currentPage}
-                        setPaginationData={setPaginationData} PaginationData={PaginationData}/>
+                    </div>
+                }
+                {/*отрисовка списка репозиториев*/}
 
+                <Pagination totalRepositoriesCount={RepositoriesData.length} pageSize={PaginationData.pageSize}
+                currentPage={PaginationData.currentPage}
+                setPaginationData={setPaginationData} PaginationData={PaginationData}/>
+            </div>}
         </div>
 
     </div>

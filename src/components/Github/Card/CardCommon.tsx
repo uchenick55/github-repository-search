@@ -7,10 +7,10 @@ export type CardCommonType = {
     CardData: CardDataType
 }
 const CardCommon: React.FC<CardCommonType> = ({CardData}) => {
-    const {name, description} = CardData || ""
-    const totalCount = CardData.stargazers.totalCount || null
-    const login = CardData.owner.login || ""
-    const Languages = CardData.languages.nodes || []
+    const {name, description} = CardData
+    const totalCount = CardData.stargazers && CardData.stargazers.totalCount
+    const login = CardData.owner && CardData.owner.login
+    const Languages = CardData.languages && CardData.languages.nodes
 
     const DateLocal: DataReturn2Type = GetDate(CardData.defaultBranchRef ? CardData.defaultBranchRef.target.committedDate :"" )
     return <div className={s.ToCenter}> {/*  центруем*/}
@@ -26,7 +26,6 @@ const CardCommon: React.FC<CardCommonType> = ({CardData}) => {
                     return <li key={n.name}>{n.name}</li>
                 } )}</ul></div>}
             </div>
-
         </div>
 
     </div>

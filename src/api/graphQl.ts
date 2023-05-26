@@ -143,7 +143,6 @@ export const gitHubQuery = { // общий объект с методами за
             getId: `${cardId}`,
         }
         const response = await getGitHubData( query3, variablesLocal )
-        console.log("getCardData", response.node)
         return (response.node) //возврат данных из поля data
     },
 

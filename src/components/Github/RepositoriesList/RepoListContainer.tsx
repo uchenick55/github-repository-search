@@ -3,18 +3,26 @@ import {GlobalStateType} from "../../../redux/store-redux";
 import {connect} from "react-redux";
 import GitHubCOM from "./GitHubCOM";
 import {
-    getMyRepositoriesDataThCr, getSearchResultDataThCr,
-    GithubActions,
+    getMyRepositoriesDataThCr, getSearchResultDataThCr, GithubActions, MarkersListType,
     PaginationDataType,
     setPaginationDataThunkCreator, setSearchQueryThunkCreator
 } from "../../../redux/gh-list-reducer";
 
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     { PaginationData, setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery,
-        IsFetching, getMyRepositoriesDataThCr, getSearchResultDataThCr, RepositoriesData}) => {
+        IsFetching, getMyRepositoriesDataThCr, getSearchResultDataThCr, RepositoriesData, ListMarkers,
+        setListMarkersAC,}) => {
 
     const setSearchQuery = (searchQuery: string) => {
-        setSearchQueryThunkCreator(searchQuery)
+        setSearchQueryThunkCreator(searchQuery) // запрашиваем новые данные поиска при любом изменении searchQuery
+
+        if (searchQuery==="") { // при обнулении поискового запроса меняем маркер для загрузки моих репозиториев
+            setListMarkersAC( {
+                    ...ListMarkers,
+                    IsRepositoriesDataUploaded: false
+                }
+            )
+        }
     }
 
     const setPaginationData = (PaginationData: PaginationDataType) => {
@@ -22,19 +30,17 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
     }
 
     useEffect(()=>{
-        if (SearchQuery==="") {
-            console.log("получить данные по моим репозиториям")
-            getMyRepositoriesDataThCr()
-        } else {
-            console.log("получить данные по поисковому запросу")
-            getSearchResultDataThCr(SearchQuery)
+        if (!ListMarkers.IsRepositoriesDataUploaded) {
+
+            if (SearchQuery==="") {
+                console.log("запросить данные по моим репозиториям")
+                getMyRepositoriesDataThCr()
+            } else {
+                console.log("запросить данные по поисковому запросу")
+                getSearchResultDataThCr(SearchQuery)
+            }
         }
     },[SearchQuery])
-
-
-
-
-
 
     return <div>
         <GitHubCOM setSearchQuery={setSearchQuery} PaginationData={PaginationData}
@@ -50,7 +56,7 @@ const mapStateToProps = (state: GlobalStateType) => {
         SearchQuery: state.ghList.SearchQuery, // значение поля поиска (после ввода)
         IsFetching:state.app.IsFetching, // индикатор процесса загрузки
         RepositoriesData: state.ghList.RepositoriesData, // данные списка репозиториев моих, либо поиска
-
+        ListMarkers: state.ghList.ListMarkers, // вспомогательные маркеры
     }
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
@@ -60,12 +66,15 @@ type mapDispatchToPropsType = {
     setSearchQueryThunkCreator: (SearchQuery: string) => void //санкреатор задания данных SearchQuery в локалсторадж и потом в стейт
     getMyRepositoriesDataThCr: () => void, // получение данных моих репозиториев
     getSearchResultDataThCr: (SearchQuery:string) => void, // получение данных поискового запроса
+    setListMarkersAC: (ListMarkers: MarkersListType) => void // изменение вспомогательных флагов ListMarkers
 }
+
+const {setListMarkersAC} = GithubActions
 export default connect<mapStateToPropsType,
     mapDispatchToPropsType,
     unknown,
     GlobalStateType>( mapStateToProps, {
     setPaginationDataThunkCreator, setSearchQueryThunkCreator,
-    getMyRepositoriesDataThCr, getSearchResultDataThCr
+    getMyRepositoriesDataThCr, getSearchResultDataThCr, setListMarkersAC
 } )( RepoListContainer );
 // коннектим к app флаг и санки инициализации

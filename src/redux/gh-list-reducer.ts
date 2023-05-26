@@ -9,6 +9,7 @@ const SET_PAGINATION_DATA = "myApp/app-reducer/SET_PAGINATION_DATA"; //конс�
 const SET_MY_REPOSITORIES_DATA = "myApp/app-reducer/SET_MY_REPOSITORIES_DATA"; //константа задания MyRepositoriesData
 const SET_SEARCH_RESULT_DATA = "myApp/app-reducer/SET_SEARCH_RESULT_DATA"; //константа задания SearchResultData
 const SET_REPOSITORIES_DATA = "myApp/app-reducer/SET_REPOSITORIES_DATA"; //константа задания RepositoriesData
+const SET_LIST_MARKERS = "myApp/app-reducer/SET_LIST_MARKERS"; //константа задания вспомогательных маркеров
 
 export const GithubActions = {
     setSearchQueryAC: (SearchQuery: string) => { // экшн креатор задания поискового запроса в стейт
@@ -26,7 +27,9 @@ export const GithubActions = {
     setRepositoriesDataAC: (RepositoriesData: Array<RepositoriesDataType>) => { // экшн креатор задания MyRepositoriesData
         return {type: SET_REPOSITORIES_DATA, RepositoriesData} as const
     },
-
+    setListMarkersAC: (ListMarkers: MarkersListType) => { // экшн креатор задания вспомогательных макреров
+        return {type: SET_LIST_MARKERS, ListMarkers} as const
+    },
 }
 
 type GithubActionTypes = InferActionsTypes<typeof GithubActions> | InferActionsTypes<typeof AppActions>
@@ -42,8 +45,12 @@ export const initialStateGhList = { //стейт по умолчанию с ги
     },
     RepositoriesData: // данные по всем репозиториям (либо мои репозитории, либо результаты поиска)
         [] as Array<RepositoriesDataType>,
+    ListMarkers: { // вспомогательные маркеры для List (исключить повторные рендеры и загрузки)
+        IsRepositoriesDataUploaded: false, // загружены ли данные по репозиториям
+    }
 }
 export type PaginationDataType = typeof initialStateGhList.PaginationData
+export type MarkersListType = typeof initialStateGhList.ListMarkers
 
 let ghListReducer = (state: initialStateGhListType = initialStateGhList, action: GithubActionTypes): initialStateGhListType => {//редьюсер инициализации приложения
     let stateCopy: initialStateGhListType; // объявлениечасти части стейта до изменения редьюсером
@@ -64,6 +71,12 @@ let ghListReducer = (state: initialStateGhListType = initialStateGhList, action:
             stateCopy = {
                 ...state, // копия всего стейта
                 RepositoriesData: action.RepositoriesData,
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_LIST_MARKERS: // экшн задания ListMarkers
+            stateCopy = {
+                ...state, // копия всего стейта
+                ListMarkers: action.ListMarkers,
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
@@ -101,10 +114,8 @@ export const setSearchQueryThunkCreator = (SearchQuery: string): ComThunkTp<Gith
 
         dispatch( setPaginationDataThunkCreator( initialStateGhList.PaginationData ) ) // зануление пагинации при новом поисковом запросе
 
-        dispatch( GithubActions.setRepositoriesDataAC( [] ) ) // зануление SearchResultData при новом поисковом запросе
-
         if (response1 !== "") { // при непустом поисковом запросе
-            console.log( "записали новое SearchQuery в стейт, запускаем получение данных graphQl с сервера" )
+            console.log( "после записи нового SearchQuery в стейт, запускаем получение данных graphQl с сервера" )
             dispatch( getSearchResultDataThCr( SearchQuery ) )  // получить данные с сервера SearchResultData
         }
     }
@@ -120,25 +131,40 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 }
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
+        //   dispatch( GithubActions.setRepositoriesDataAC( [] ) );  //записать полученное MyRepositoriesData с gitHub в store
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
         gitHubQuery.getStarredRepos().then( (response1: Array<RepositoriesDataType>) => {
-                dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
-                dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
-                dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
+            dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
+            dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
+            dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
+
+            dispatch( GithubActions.setListMarkersAC( {
+                ...getState().ghList.ListMarkers,
+                IsRepositoriesDataUploaded: true
+            } ) )
+            console.log( "getMyRepositoriesDataThCr - IsRepositoriesDataUploaded: true" )
+
             }
         )
     }
 }
 export const getSearchResultDataThCr = (SearchQuery: string): ComThunkTp<GithubActionTypes> => {//санкреатор получения SearchResultData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
-        console.log( "получение SearchResultData с gitHub через axios/grapgQl" )
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.searchRepos( SearchQuery ).then((response1: Array<RepositoriesDataType>)=>{
-            console.log( "searchRepos", response1 )
+        gitHubQuery.searchRepos( SearchQuery ).then( (response1: Array<RepositoriesDataType>) => {
+            console.log( "получены данные SearchResultData с gitHub", response1 )
             dispatch( GithubActions.setSearchResultDataAC( response1 ) )  //записать полученное SearchResultData с gitHub в store
             dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное SearchResultData с gitHub в store
             dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
-        })
+
+            dispatch( GithubActions.setListMarkersAC( {
+                ...getState().ghList.ListMarkers,
+                IsRepositoriesDataUploaded: true
+            } ) )
+            console.log( "маркер загрузки SearchResultData переведен в true" )
+
+
+        } )
     }
 }
 
