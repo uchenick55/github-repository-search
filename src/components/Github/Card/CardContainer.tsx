@@ -9,11 +9,11 @@ import Preloader from "../../../common/Preloader/Preloader";
 import NavigateToLoginHoc2 from "../../../common/hoc/NavigateToLoginHoc2";
 
 const CardContainer:React.FC<mapStateToPropsType & mapDispatchToPropsType & OwnPropsType> = (
-    {CardData, userId, getCardDataThCr, CardMarkers, IsFetching}) => {
+    {CardData, cardId, getCardDataThCr, CardMarkers, IsFetching}) => {
 
     useEffect(()=>{
         console.log("запросить данные по карточке при первой загрузке")
-        getCardDataThCr(userId) // получить данные по карточке при первой загрузке
+        getCardDataThCr(cardId) // получить данные по карточке при первой загрузке
     },[])
 
     return <div>
@@ -32,12 +32,12 @@ const mapStateToProps = (state: GlobalStateType) => {
     }
 }
 type OwnPropsType = {
-    userId: string // id пользователя
+    cardId: string // id пользователя
 }
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 
 type mapDispatchToPropsType = {
-    getCardDataThCr: (cardId: string) => void // санкреатор получить данные по карточке выбранного userId
+    getCardDataThCr: (cardId: string) => void // санкреатор получить данные по карточке выбранного cardId
 
 }
 export default compose<React.ComponentType>(

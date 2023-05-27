@@ -83,7 +83,9 @@ export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// 
         const promise3 = dispatch( getGithubTokenThunkCreator() )// получить данные GithubToken из LocalStorage
         Promise.all( [promise1, promise2, promise3] ) // если все промисы зарезолвились
             .then( () => {
-                dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true
+                setTimeout(()=>{
+                    dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true
+                }, 1000)
             } )
     };
 }

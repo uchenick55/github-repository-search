@@ -13,7 +13,7 @@ const TokenContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     const setTokenToState = (Token: string) => {
         checkGhTokenThCr( Token )
     }
-    if (isAuth === true) { // при успешной авторизации
+    if (isAuth) { // при успешной авторизации
         return <Navigate to='../list'/>; // переходим на страницу поиска репозиториев
     }
 

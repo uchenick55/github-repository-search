@@ -73,16 +73,6 @@ type mapDispatchToPropsType = {
 
 const {setListMarkersAC} = GithubActions
 
-/*export default connect<mapStateToPropsType,
-    mapDispatchToPropsType,
-    unknown,
-    GlobalStateType>( mapStateToProps, {
-    setPaginationDataThunkCreator, setSearchQueryThunkCreator,
-    getMyRepositoriesDataThCr, getSearchResultDataThCr, setListMarkersAC
-} )( RepoListContainer );*/
-// коннектим к app флаг и санки инициализации
-
-
 export default compose<React.ComponentType>(
     connect<mapStateToPropsType, // тип mapStateToProps
         mapDispatchToPropsType, // тип mapDispatchToProps
