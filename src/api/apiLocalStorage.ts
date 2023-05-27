@@ -14,7 +14,6 @@ export const apiCommon = { // объект с методами api для общ
     let Data1:PaginationDataType | null = JSON.parse(localStorage.getItem("PaginationData")); // получить PaginationData из LocalStorage
     if (!Data1) {
       Data1=initialStateGhList.PaginationData // задаем значение PaginationData по умолчанию
-     // apiCommon.putPaginationData(Data1) // записываем PaginationData по умолчанию в localStorage если ее нет
     }
     return Data1 // вернуть PaginationData после считывания
   },
@@ -25,7 +24,6 @@ export const apiCommon = { // объект с методами api для общ
     return apiCommon.getSearchQuery()// запросить SearchQuery с localStorage после записи
   },
   getSearchQuery: () => { // получение SearchQuery из localStorage
-
     // @ts-ignore
     let Data1:string = JSON.parse(localStorage.getItem("SearchQuery")); // получить SearchQuery из LocalStorage
     if (!Data1) {
@@ -34,5 +32,15 @@ export const apiCommon = { // объект с методами api для общ
     }
     return Data1 // вернуть SearchQuery после считывания
   },
+  putGithubTokenLs: (GithubToken:string) => { // сохранение введенного токена в localStorage
+    localStorage.setItem("GithubToken", JSON.stringify(GithubToken)); //
+    return apiCommon.getGithubTokenLs()// запросить GithubToken с localStorage после записи
+  },
+
+  getGithubTokenLs: () => { // получение GithubToken из localStorage
+    // @ts-ignore
+    return JSON.parse(localStorage.getItem("GithubToken")); // получить GithubToken из LocalStorage
+  },
+
 
 }

@@ -8,7 +8,6 @@ import Preloader from "./common/Preloader/Preloader";
 import {HashRouter} from "react-router-dom";
 import CardContainer from "./components/Github/Card/CardContainer";
 import {Route, Routes} from "react-router-dom";
-import InputCheckGhToken from "./components/Github/InputCheckGhToken/InputCheckGhToken";
 import TokenContainer from "./components/Github/InputCheckGhToken/TokenContainer";
 
 const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (

@@ -1,14 +1,11 @@
 import {InferActionsTypes} from "./store-redux";
-import {ComThunkTp, RepositoriesDataType} from "../common/types/commonTypes";
+import {ComThunkTp} from "../common/types/commonTypes";
 import {
-    getMyRepositoriesDataThCr,
     getPaginationDataThunkCreator,
     getSearchQueryThunkCreator,
-    GithubActions
 } from "./gh-list-reducer";
 import {gitHubQuery} from "../api/graphQl";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import {apiCommon} from "../api/apiLocalStorage";
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_IS_FETCHING = "myApp/app-reducer/SET_IS_FETCHING"; //константа задания процесса загрузки
@@ -33,9 +30,9 @@ export const AppActions = {
 
 type AppActionTypes = InferActionsTypes<typeof AppActions>
 
-type initialStateType = typeof initialState
+type AppInitialStateType = typeof AppInitialState
 
-const initialState = { //стейт по умолчанию для инициализации приложения
+export const AppInitialState = { //стейт по умолчанию для инициализации приложения
     initialisedApp: false, // флаг приложение инициализировано?
     IsFetching: false, // индикатор процесса загрузки
     GITHUB_TOKEN: "", // токен гитхаб
@@ -43,10 +40,10 @@ const initialState = { //стейт по умолчанию для инициа�
     ServerError: "" // ошибки с сервера
 }
 
-export type ServerErrorType = typeof initialState.ServerError // тип ошибок с сервера
+export type ServerErrorType = typeof AppInitialState.ServerError // тип ошибок с сервера
 
-const appReducer = (state: initialStateType = initialState, action: AppActionTypes): initialStateType => {//редьюсер инициализации приложения
-    let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
+const appReducer = (state: AppInitialStateType = AppInitialState, action: AppActionTypes): AppInitialStateType => {//редьюсер инициализации приложения
+    let stateCopy: AppInitialStateType; // объявлениечасти части стейта до изменения редьюсером
     switch (action.type) {
         case SET_INITIALISED_APP: // экшн инициализации приложения
             stateCopy = {
@@ -81,33 +78,43 @@ const appReducer = (state: initialStateType = initialState, action: AppActionTyp
 
 export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// санкреатор инициализации приложения
     return (dispatch, getState) => { // санки  инициализации приложения
-        const promise1 = dispatch( getPaginationDataThunkCreator() )// получить данные по пагинации
-        const promise2 = dispatch( getSearchQueryThunkCreator() )// получить данные по поисковому запросу
-        Promise.all( [promise1, promise2] ) // если все промисы зарезолвились
+        const promise1 = dispatch( getPaginationDataThunkCreator() )// получить данные по пагинации из LocalStorage
+        const promise2 = dispatch( getSearchQueryThunkCreator() )// получить данные по поисковому запросу из LocalStorage
+        const promise3 = dispatch( getGithubTokenThunkCreator() )// получить данные GithubToken из LocalStorage
+        Promise.all( [promise1, promise2, promise3] ) // если все промисы зарезолвились
             .then( () => {
                 dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true
             } )
     };
 }
 
-export const checkGhTokenThCr = (Token:string): ComThunkTp<AppActionTypes> => {//санкреатор проверки токена github
+export const checkGhTokenThCr = (Token: string): ComThunkTp<AppActionTypes> => {//санкреатор проверки токена github
     return (dispatch, getState) => { // санка
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.checkGhToken(Token).then( (response1: any) => {
-            dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
-            dispatch(AppActions.setGithubTokenAC(Token))
+        gitHubQuery.checkGhToken( Token ).then( (response1: any) => {
+                apiCommon.putGithubTokenLs( Token )
+                dispatch( AppActions.setGithubTokenAC( Token ) )
+                dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
                 console.log( "checkGhTokenThCr", response1 )
             }
         )
             .catch( (error1) => {
-                dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
-                dispatch(AppActions.setServerErrorAC(error1.message))
-                console.log( error1 )
+                    dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
+                    dispatch( AppActions.setServerErrorAC( error1.message ) )
+                    console.log( error1 )
                 }
             )
     }
 }
 
+export const getGithubTokenThunkCreator = (): ComThunkTp<AppActionTypes> => {//санкреатор получения GithubToken из LocalStorage и в стейт
+    return async (dispatch, getState) => { // санка
+        console.log( "получить GithubToken из LocalStorage" )
+        const response1 = await apiCommon.getGithubTokenLs()  //получить значение GithubToken из localStorage
+        console.log( "запись GithubToken в стейт" )
+        dispatch( AppActions.setGithubTokenAC( response1 ) )  //записать считаное из localStorage значение GithubToken в store
+    }
+}
 
 export default appReducer;
 
