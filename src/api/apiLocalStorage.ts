@@ -1,4 +1,5 @@
 import {initialStateGhList, PaginationDataType} from "../redux/gh-list-reducer";
+import {AppInitialState} from "../redux/app-reducer";
 
 export const apiCommon = { // объект с методами api для общих нужд
 
@@ -39,8 +40,14 @@ export const apiCommon = { // объект с методами api для общ
 
   getGithubTokenLs: () => { // получение GithubToken из localStorage
     // @ts-ignore
-    return JSON.parse(localStorage.getItem("GithubToken")); // получить GithubToken из LocalStorage
+    let Data1:string = JSON.parse(localStorage.getItem("GithubToken")); // получить GithubToken из LocalStorage
+    if (!Data1) {
+      Data1=AppInitialState.GITHUB_TOKEN // задаем значение SearchQuery по умолчанию
+      // apiCommon.putSearchQuery(Data1) // записываем SearchQuery по умолчанию в localStorage если ее нет
+    }
+    return Data1 // вернуть SearchQuery после считывания
   },
+
 
 
 }

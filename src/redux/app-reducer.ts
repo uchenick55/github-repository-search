@@ -2,7 +2,7 @@ import {InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
 import {
     getPaginationDataThunkCreator,
-    getSearchQueryThunkCreator,
+    getSearchQueryThunkCreator, GithubActions,
 } from "./gh-list-reducer";
 import {gitHubQuery} from "../api/graphQl";
 import {apiCommon} from "../api/apiLocalStorage";
@@ -107,12 +107,12 @@ export const checkGhTokenThCr = (Token: string): ComThunkTp<AppActionTypes> => {
     }
 }
 
-export const getGithubTokenThunkCreator = (): ComThunkTp<AppActionTypes> => {//санкреатор получения GithubToken из LocalStorage и в стейт
+export const getGithubTokenThunkCreator = (): ComThunkTp<AppActionTypes> => {//санкреатор получения GithubToken из LocalStorage и запись в стейт
     return async (dispatch, getState) => { // санка
         console.log( "получить GithubToken из LocalStorage" )
         const response1 = await apiCommon.getGithubTokenLs()  //получить значение GithubToken из localStorage
-        console.log( "запись GithubToken в стейт" )
-        dispatch( AppActions.setGithubTokenAC( response1 ) )  //записать считаное из localStorage значение GithubToken в store
+
+        dispatch(checkGhTokenThCr(response1))//проверяем полученый токен на правильный запрос
     }
 }
 

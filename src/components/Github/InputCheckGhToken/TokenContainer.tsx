@@ -45,5 +45,4 @@ export default compose<React.ComponentType>(
         >( mapStateToProps, {
         checkGhTokenThCr
     } ),
-    // NavigateToLoginHoc2 проверка, залогинен ли я
 )( TokenContainer )
