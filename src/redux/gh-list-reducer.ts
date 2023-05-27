@@ -132,17 +132,16 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.getStarredRepos(getState().app.GITHUB_TOKEN).then( (response1: Array<RepositoriesDataType>) => {
-            dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
-            dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
-            dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
+        gitHubQuery.getStarredRepos( getState().app.GITHUB_TOKEN ).then( (response1: Array<RepositoriesDataType>) => {
+                dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
+                dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
+                dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
 
-            dispatch( GithubActions.setListMarkersAC( {
-                ...getState().ghList.ListMarkers,
-                IsRepositoriesDataUploaded: true
-            } ) )
-            console.log( "getMyRepositoriesDataThCr - IsRepositoriesDataUploaded: true" )
-
+                dispatch( GithubActions.setListMarkersAC( {
+                    ...getState().ghList.ListMarkers,
+                    IsRepositoriesDataUploaded: true
+                } ) )
+                console.log( "getMyRepositoriesDataThCr - IsRepositoriesDataUploaded: true" )
             }
         )
     }
@@ -160,9 +159,6 @@ export const getSearchResultDataThCr = (SearchQuery: string): ComThunkTp<GithubA
                 ...getState().ghList.ListMarkers,
                 IsRepositoriesDataUploaded: true
             } ) )
-            console.log( "маркер загрузки SearchResultData переведен в true" )
-
-
         } )
     }
 }

@@ -97,7 +97,7 @@ export const checkGhTokenThCr = (Token: string): ComThunkTp<AppActionTypes> => {
                 apiCommon.putGithubTokenLs( Token )
                 dispatch( AppActions.setGithubTokenAC( Token ) )
                 dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
-                console.log( "checkGhTokenThCr", response1 )
+                console.log( "токен проверен, вызов корректный, записали его в стейт", response1 )
             }
         )
             .catch( (error1) => {

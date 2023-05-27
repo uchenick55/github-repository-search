@@ -3,27 +3,31 @@ import s from "./Repositories.module.css"
 
 type RenderSearchFieldType = {
     SearchQuery: string, // поле поиска
-    setSearchQuery: (searchQuery:string)=>void // задание в стейт поискового запроса
+    setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
 }
 
 const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, SearchQuery}) => {
     const [inputValue, setInputValue] = useState<string>( SearchQuery )
     const checkEnterPressed = (event: React.KeyboardEvent) => { // проверка нажатия Enter
-        if (event.charCode===13) {
-            setSearchQuery(inputValue)//задание статуса при нажатии Enter
+        if (event.charCode === 13) {
+            setSearchQuery( inputValue )//задание статуса при нажатии Enter
         }
     }
     return <div className={s.SearchFieldCommon}>
-        <div>
-            <input className={s.SearchField} type="text"
-                   value={inputValue}
-                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                       setInputValue( e.target.value )
-                   }}
-                   autoFocus //  фокусировка на поле ввода текста
-                   placeholder={"Поиск по gitHub репозиториям"}// текст при пустом поле ввода
-                   onKeyPress={checkEnterPressed} // проверка нажатия Enter
-            /></div>
+        <input className={s.SearchField} type="text"
+               value={inputValue}
+               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                   setInputValue( e.target.value )
+               }}
+               autoFocus //  фокусировка на поле ввода текста
+               placeholder={"Поиск по gitHub репозиториям"}// текст при пустом поле ввода
+               onKeyPress={checkEnterPressed} // проверка нажатия Enter
+        />
+        <div className={s.ButtonEnterExt}>
+            <div
+                className={s.ButtonEnterInt}
+                onClick={()=>{setSearchQuery( inputValue )}}>Enter</div>
+        </div>
 
     </div>
 }

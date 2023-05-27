@@ -42,7 +42,7 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
                 getSearchResultDataThCr(SearchQuery)
             }
         }
-    },[SearchQuery])
+    },[SearchQuery, ListMarkers.IsRepositoriesDataUploaded, getMyRepositoriesDataThCr, getSearchResultDataThCr])
 
     return <div>
         <GitHubCOM setSearchQuery={setSearchQuery} PaginationData={PaginationData}

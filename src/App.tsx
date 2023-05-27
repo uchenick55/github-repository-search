@@ -15,8 +15,7 @@ const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
 
     useEffect( () => {
         initialisedAppThunkCreator() // запускаем инициализацию приложения
-
-    }, [] )
+    }, [initialisedAppThunkCreator] )
     if (!initialisedApp) { // если приложение еще не инициализировано
         return <Preloader/> // показать статус загрузки
     }

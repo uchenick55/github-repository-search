@@ -2,6 +2,7 @@
     width: 38rem;
     position: relative;
 }
+
 .SearchFieldCommon {
     position: absolute;
     left: 0;
@@ -12,16 +13,37 @@
     justify-content: center;
 
 }
+
+.ButtonEnterExt {
+    position: absolute;
+    right: 3.85rem;
+    top: 0.9rem;
+    width: 3rem;
+    height: 1.5rem;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-radius: 0.2rem;
+
+}
+
+.ButtonEnterInt {
+    position: absolute;
+    left: 0.4rem;
+    top: 0.2rem;
+    cursor: pointer;
+}
+
 .SearchField {
     position: relative;
     top: 0.7rem;
-    width: 30rem ;
+    width: 30rem;
     height: 1.3rem;
     border-radius: 0.2rem;
     border: 1px solid rgba(100, 100, 100, 0.2);
     padding: 0.3rem;
-    outline:none;
+    outline: none;
 }
+
 .RenderRepositoriesCommon {
     position: absolute;
     left: 0;
@@ -65,6 +87,7 @@
     left: 20rem;
 
 }
+
 .RepositoryItemLastCommitHeader {
     width: 10rem;
 }
@@ -87,6 +110,7 @@
     position: absolute;
     top: 22rem;
 }
+
 .PIC { /*общий стиль элемента пагинации*/
     display: inline-block;
     cursor: pointer;
@@ -95,36 +119,39 @@
     padding: 1rem;
     border-radius: 0.5rem;
 }
+
 .PaginationItemCurrent { /*текущая страница пагинации*/
     background-color: darkcyan;
-    opacity: 1 ;
+    opacity: 1;
 }
+
 .PaginationItem { /*остальные страницы пагинации*/
-    background-color: aqua ;
-    opacity: 0.7 ;
+    background-color: aqua;
+    opacity: 0.7;
 
 }
 
 .PaginationItem:hover {
     transform: scale(1.2);
-    opacity: 1 ;
+    opacity: 1;
 
 }
 
 .Repositoryid {
-  left: -0.5rem;
+    left: -0.5rem;
 }
 
 .NotFoundText {
     position: absolute;
-    top:10rem;
-    left:40%;
+    top: 10rem;
+    left: 40%;
     color: maroon;
     font-size: 1rem;
 }
+
 .NotFoundImg {
     position: absolute;
-    top:5rem;
-    left:45%;
+    top: 5rem;
+    left: 45%;
     width: 4rem;
 }
