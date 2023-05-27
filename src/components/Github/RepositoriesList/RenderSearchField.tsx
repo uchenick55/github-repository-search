@@ -23,7 +23,6 @@ const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, Sea
                    autoFocus //  фокусировка на поле ввода текста
                    placeholder={"Поиск по gitHub репозиториям"}// текст при пустом поле ввода
                    onKeyPress={checkEnterPressed} // проверка нажатия Enter
-
             /></div>
 
     </div>

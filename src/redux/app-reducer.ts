@@ -12,6 +12,8 @@ import error = Simulate.error;
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_IS_FETCHING = "myApp/app-reducer/SET_IS_FETCHING"; //константа задания процесса загрузки
+const SET_GITHUB_TOKEN = "myApp/app-reducer/SET_GITHUB_TOKEN"; //константа задания токена после успешного ответа от сервера
+const SET_SERVER_ERROR = "myApp/app-reducer/SET_SERVER_ERROR"; //константа задания ошибок с сервера
 
 export const AppActions = {
     setInitialisedApp: () => { // экшн креатор  инициализации приложения
@@ -19,6 +21,12 @@ export const AppActions = {
     },
     setIsFetchingAC: (IsFetching: boolean) => { // экшн креатор задания процесса загрузки
         return {type: SET_IS_FETCHING, IsFetching} as const
+    },
+    setGithubTokenAC: (GITHUB_TOKEN: string) => { // экшн креатор записи в стейт GITHUB_TOKEN после проверки
+        return {type: SET_GITHUB_TOKEN, GITHUB_TOKEN} as const
+    },
+    setServerErrorAC: (ServerError: ServerErrorType) => { // экшн креатор записи в стейт ошибок с сервера
+        return {type: SET_SERVER_ERROR, ServerError} as const
     },
 
 }
@@ -29,9 +37,13 @@ type initialStateType = typeof initialState
 
 const initialState = { //стейт по умолчанию для инициализации приложения
     initialisedApp: false, // флаг приложение инициализировано?
-    IsFetching: false // индикатор процесса загрузки
-
+    IsFetching: false, // индикатор процесса загрузки
+    GITHUB_TOKEN: "", // токен гитхаб
+    isAuth: false, // мы авторизованы? (валиден ли гитхаб токен)
+    ServerError: "" // ошибки с сервера
 }
+
+export type ServerErrorType = typeof initialState.ServerError // тип ошибок с сервера
 
 const appReducer = (state: initialStateType = initialState, action: AppActionTypes): initialStateType => {//редьюсер инициализации приложения
     let stateCopy: initialStateType; // объявлениечасти части стейта до изменения редьюсером
@@ -46,6 +58,20 @@ const appReducer = (state: initialStateType = initialState, action: AppActionTyp
             stateCopy = {
                 ...state, // копия всего стейта
                 IsFetching: action.IsFetching
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_GITHUB_TOKEN: // экшн задания токена гитхаб в стейт
+            stateCopy = {
+                ...state, // копия всего стейта
+                GITHUB_TOKEN: action.GITHUB_TOKEN,
+                isAuth: true,
+                ServerError: ""
+            }
+            return stateCopy; // возврат копии стейта после изменения
+        case SET_SERVER_ERROR: // экшн задания ошибок в стейт
+            stateCopy = {
+                ...state, // копия всего стейта
+                ServerError: action.ServerError,
             }
             return stateCopy; // возврат копии стейта после изменения
         default:
@@ -64,17 +90,19 @@ export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// 
     };
 }
 
-export const checkGhTokenThCr = (): ComThunkTp<AppActionTypes> => {//санкреатор проверки токена github
+export const checkGhTokenThCr = (Token:string): ComThunkTp<AppActionTypes> => {//санкреатор проверки токена github
     return (dispatch, getState) => { // санка
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.checkGhToken().then( (response1: any) => {
-
+        gitHubQuery.checkGhToken(Token).then( (response1: any) => {
+            dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
+            dispatch(AppActions.setGithubTokenAC(Token))
                 console.log( "checkGhTokenThCr", response1 )
-          //  dispatch(initialisedAppThunkCreator())
             }
         )
             .catch( (error1) => {
-                    console.log( error1 )
+                dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
+                dispatch(AppActions.setServerErrorAC(error1.message))
+                console.log( error1 )
                 }
             )
     }

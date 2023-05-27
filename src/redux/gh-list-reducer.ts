@@ -132,7 +132,7 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.getStarredRepos().then( (response1: Array<RepositoriesDataType>) => {
+        gitHubQuery.getStarredRepos(getState().app.GITHUB_TOKEN).then( (response1: Array<RepositoriesDataType>) => {
             dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
             dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store
             dispatch( AppActions.setIsFetchingAC( false ) ) // убрать процесс загрузки
@@ -150,7 +150,7 @@ export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {/
 export const getSearchResultDataThCr = (SearchQuery: string): ComThunkTp<GithubActionTypes> => {//санкреатор получения SearchResultData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.searchRepos( SearchQuery ).then( (response1: Array<RepositoriesDataType>) => {
+        gitHubQuery.searchRepos( SearchQuery, getState().app.GITHUB_TOKEN ).then( (response1: Array<RepositoriesDataType>) => {
             console.log( "получены данные SearchResultData с gitHub", response1 )
             dispatch( GithubActions.setSearchResultDataAC( response1 ) )  //записать полученное SearchResultData с gitHub в store
             dispatch( GithubActions.setRepositoriesDataAC( response1 ) );  //записать полученное SearchResultData с gitHub в store

@@ -53,7 +53,7 @@ export const getCardDataThCr = (cardId: string): ComThunkTp<CardActionTypes> => 
     return (dispatch, getState) => { // санка
 
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
-        gitHubQuery.getCardData( cardId ).then((response1: CardDataType)=>{
+        gitHubQuery.getCardData( cardId, getState().app.GITHUB_TOKEN ).then((response1: CardDataType)=>{
             console.log( "получены данные SearchResultData с gitHub через axios/grapgQl", response1 )
 
             dispatch( GhCardActions.setCardDataAC( response1 ) )  //записать полученное SearchResultData с gitHub в store

@@ -1,10 +1,21 @@
 .inputToken {
     position: absolute;
-    top: 5rem;
-    width: 20rem ;
+    top: 9rem;
+    width: 30rem ;
     height: 1.3rem;
     border-radius: 0.2rem;
     border: 1px solid rgba(100, 100, 100, 0.2);
     padding: 0.3rem;
     outline:none;
+}
+
+.InputTokenText {
+    position: absolute;
+    width: 30rem;
+}
+.ServerError {
+    position: absolute;
+    top: 12rem;
+    color: red;
+    width: 30rem;
 }

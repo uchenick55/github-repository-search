@@ -9,6 +9,7 @@ import {HashRouter} from "react-router-dom";
 import CardContainer from "./components/Github/Card/CardContainer";
 import {Route, Routes} from "react-router-dom";
 import InputCheckGhToken from "./components/Github/InputCheckGhToken/InputCheckGhToken";
+import TokenContainer from "./components/Github/InputCheckGhToken/TokenContainer";
 
 const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     {initialisedAppThunkCreator, initialisedApp}) => {
@@ -20,16 +21,12 @@ const App: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     if (!initialisedApp) { // если приложение еще не инициализировано
         return <Preloader/> // показать статус загрузки
     }
-    const setTokenToState = () => {
-        
-    }
-
     return <div>
         <HashRouter> {/*BrowserRouter для продакшн, HashRouter для gh-pages*/}
             <ErrorBoundary> {/*Общий обработчик ошибок во всем приложении*/}
                 <Routes> {/*в зависимости от URL подгрузка разного контента*/}
-                    <Route path='/token/*' element={ <InputCheckGhToken setTokenToState={setTokenToState}/>}/> {/*ввод и проверка github токена*/}
-                    <Route path='' element={<RepoListContainer/>}/> {/*лист репозиториев - моих, или с поиска*/}
+                    <Route path='' element={<TokenContainer/> }/> {/*ввод и проверка github токена*/}
+                    <Route path='/list/*' element={<RepoListContainer/>}/> {/*лист репозиториев - моих, или с поиска*/}
                     <Route path='/card/*' element={<CardContainer/>}/> {/*карточка репозитория*/}
                 </Routes>
             </ErrorBoundary>
