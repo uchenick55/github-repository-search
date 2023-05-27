@@ -1,6 +1,14 @@
-import { InferActionsTypes} from "./store-redux";
-import {ComThunkTp} from "../common/types/commonTypes";
-import {getMyRepositoriesDataThCr, getPaginationDataThunkCreator, getSearchQueryThunkCreator} from "./gh-list-reducer";
+import {InferActionsTypes} from "./store-redux";
+import {ComThunkTp, RepositoriesDataType} from "../common/types/commonTypes";
+import {
+    getMyRepositoriesDataThCr,
+    getPaginationDataThunkCreator,
+    getSearchQueryThunkCreator,
+    GithubActions
+} from "./gh-list-reducer";
+import {gitHubQuery} from "../api/graphQl";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const SET_INITIALISED_APP = "myApp/app-reducer/SET_INITIALISED_APP"; //константа инициализации приложения
 const SET_IS_FETCHING = "myApp/app-reducer/SET_IS_FETCHING"; //константа задания процесса загрузки
@@ -47,14 +55,31 @@ const appReducer = (state: initialStateType = initialState, action: AppActionTyp
 
 export const initialisedAppThunkCreator = (): ComThunkTp<AppActionTypes> => {// санкреатор инициализации приложения
     return (dispatch, getState) => { // санки  инициализации приложения
-        const promise1 = dispatch(getPaginationDataThunkCreator())// получить данные по пагинации
-        const promise2 = dispatch(getSearchQueryThunkCreator())// получить данные по поисковому запросу
+        const promise1 = dispatch( getPaginationDataThunkCreator() )// получить данные по пагинации
+        const promise2 = dispatch( getSearchQueryThunkCreator() )// получить данные по поисковому запросу
         Promise.all( [promise1, promise2] ) // если все промисы зарезолвились
             .then( () => {
                 dispatch( AppActions.setInitialisedApp() ) // смена флага инициализации на true
             } )
     };
 }
+
+export const checkGhTokenThCr = (): ComThunkTp<AppActionTypes> => {//санкреатор проверки токена github
+    return (dispatch, getState) => { // санка
+        dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
+        gitHubQuery.checkGhToken().then( (response1: any) => {
+
+                console.log( "checkGhTokenThCr", response1 )
+          //  dispatch(initialisedAppThunkCreator())
+            }
+        )
+            .catch( (error1) => {
+                    console.log( error1 )
+                }
+            )
+    }
+}
+
 
 export default appReducer;
 

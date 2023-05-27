@@ -1,8 +1,13 @@
 import axios from "axios";
 import {RepositoriesDataType} from "../common/types/commonTypes";
-import {GIT_TOKEN_LOCAL} from "../GIT_TOKEN_LOCAL";
 
-const GITHUB_TOKEN: string = GIT_TOKEN_LOCAL
+const GITHUB_TOKEN: string = "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"
+
+export const query_check_token = `query { 
+  viewer { 
+    login
+  }
+}`
 
 export const query = `query {
     search(query: "stars:>50000", type: REPOSITORY, first: 10) {
@@ -128,6 +133,10 @@ type GetReposType = {
 }
 
 export const gitHubQuery = { // общий объект с методами запросов
+    checkGhToken: async () => {// проверить корректность введенного токена GH
+        const response:any = await getGitHubData( query_check_token, {} )
+        return (response) //возврат данных из поля data
+    },
     getStarredRepos: async () => {// получить самые популярные репозитории с гитхаб
         const response:GetReposType = await getGitHubData( query, {} )
         return (response.search.nodes) //возврат данных из поля data

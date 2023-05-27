@@ -1,6 +1,8 @@
 import React from "react";
 import {PaginationDataType} from "../../../redux/gh-list-reducer";
 import s from "./Repositories.module.css"
+import sc from "../../../common/classes/commonClasses.module.css"
+
 
 type PaginationType = {
     totalRepositoriesCount: number,//
@@ -41,7 +43,7 @@ const Pagination: React.FC<PaginationType> = (
     } )
 
     return (
-        <div className={s.ToCenter}>  {/*в центр пагинацию*/}
+        <div className={sc.ToCenter}>  {/*в центр пагинацию*/}
             <div className={s.PaginationCommon}>{/*смещение сверху*/}
                 {renderSlicedPages} {/*отрисовка пагинации страниц внутри кнопок*/}
             </div>

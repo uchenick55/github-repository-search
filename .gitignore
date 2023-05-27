@@ -12,7 +12,6 @@
 /build
 
 # предотвратить пуш токена на гитхаб
-/src/GIT_TOKEN_LOCAL.ts
 
 # misc
 .DS_Store

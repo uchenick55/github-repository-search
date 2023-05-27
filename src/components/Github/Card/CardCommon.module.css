@@ -1,9 +1,3 @@
-.ToCenter {
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
 .CardCommon {
     width: 40rem;
     background-color: aqua ;

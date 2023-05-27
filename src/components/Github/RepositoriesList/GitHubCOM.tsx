@@ -1,6 +1,10 @@
 import {PaginationDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css"
+import sc from "../../../common/classes/commonClasses.module.css"
+
+
+
 import RenderRepositories from "./RenderRepositories";
 import RenderSearchField from "./RenderSearchField";
 import Pagination from "./Pagination";
@@ -19,7 +23,7 @@ export type GitHubCOMType = {
 const GitHubCOM: React.FC<GitHubCOMType> = (
     {setSearchQuery, PaginationData, setPaginationData, SearchQuery, IsFetching, RepositoriesData}) => {
 
-    return <div className={s.ToCenter}> {/*  центруем*/}
+    return <div className={sc.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>
             {IsFetching && <Preloader/>}
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}

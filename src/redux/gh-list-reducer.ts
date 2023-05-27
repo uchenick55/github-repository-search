@@ -131,7 +131,6 @@ export const getSearchQueryThunkCreator = (): ComThunkTp<GithubActionTypes> => {
 }
 export const getMyRepositoriesDataThCr = (): ComThunkTp<GithubActionTypes> => {//санкреатор получения MyRepositoriesData с gitHub через axios/grapgQl
     return (dispatch, getState) => { // санка
-        //   dispatch( GithubActions.setRepositoriesDataAC( [] ) );  //записать полученное MyRepositoriesData с gitHub в store
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
         gitHubQuery.getStarredRepos().then( (response1: Array<RepositoriesDataType>) => {
             dispatch( GithubActions.setMyRepositoriesDataAC( response1 ) );  //записать полученное MyRepositoriesData с gitHub в store

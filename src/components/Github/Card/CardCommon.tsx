@@ -1,5 +1,8 @@
 import React from "react";
 import s from "./CardCommon.module.css"
+import sc from "../../../common/classes/commonClasses.module.css"
+
+
 import GetDate, {DataReturn2Type} from "../../../common/GetDate/GetDate";
 import {CardDataType} from "../../../common/types/commonTypes";
 
@@ -13,7 +16,7 @@ const CardCommon: React.FC<CardCommonType> = ({CardData}) => {
     const Languages = CardData.languages && CardData.languages.nodes
 
     const DateLocal: DataReturn2Type = GetDate(CardData.defaultBranchRef ? CardData.defaultBranchRef.target.committedDate :"" )
-    return <div className={s.ToCenter}> {/*  центруем*/}
+    return <div className={sc.ToCenter}> {/*  центруем*/}
         <div className={s.CardCommon}>
             <img className={s.imgAvatar} src={CardData.owner && CardData.owner.avatarUrl} alt=""/>
             <div className={s.otherData}>
