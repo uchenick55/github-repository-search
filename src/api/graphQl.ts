@@ -1,7 +1,8 @@
 import axios from "axios";
 import {RepositoriesDataType} from "../common/types/commonTypes";
+import {GIT_TOKEN_LOCAL} from "../GIT_TOKEN_LOCAL";
 
-const GITHUB_TOKEN: string = "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"
+const GITHUB_TOKEN: string = GIT_TOKEN_LOCAL
 
 export const query = `query {
     search(query: "stars:>50000", type: REPOSITORY, first: 10) {
