@@ -8,9 +8,10 @@ export const query_check_token = `query {
   }
 }`
 
-export const query = `query {
-    search(query: "stars:>50000", type: REPOSITORY, first: 10) {
-        repositoryCount
+export const query = `{
+  viewer {
+    repositories(first: 30, affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) {
+       
         nodes {
         ... on Repository {
                 id
@@ -35,8 +36,10 @@ export const query = `query {
             __typename
         }
         __typename
-    }
+   }
+ }
 }` // получение Starred репозиториев среди всех
+
 export const query2 = `query ($getQuery: String!) {
     search(query: $getQuery, type: REPOSITORY, first: 100) {
         repositoryCount
@@ -67,7 +70,7 @@ export const query2 = `query ($getQuery: String!) {
     }
 }
 ` // поисковый запрос репозиторев
-export const query3 =`query ($getId: ID!) {
+export const query3 = `query ($getId: ID!) {
     node(id: $getId) {
     ... on Repository {
             name
@@ -107,7 +110,7 @@ export const query3 =`query ($getId: ID!) {
 }
 ` // получить данные карточки
 
-async function getGitHubData(queryLocal: string, variables: object, GITHUB_TOKEN:string) {
+async function getGitHubData(queryLocal: string, variables: object, GITHUB_TOKEN: string) {
     const gitHubCall = await axios.post(
         `https://api.github.com/graphql`,
         {
@@ -123,6 +126,15 @@ async function getGitHubData(queryLocal: string, variables: object, GITHUB_TOKEN
     )
     return gitHubCall.data.data
 }
+
+type GetMyReposType = {
+    viewer: {
+        repositories: {
+            nodes: Array<RepositoriesDataType>,
+            __typename: string
+        }
+    }
+}
 type GetReposType = {
     search: {
         repositoryCount: number,
@@ -132,22 +144,22 @@ type GetReposType = {
 }
 
 export const gitHubQuery = { // общий объект с методами запросов
-    checkGhToken: async (GITHUB_TOKEN:string) => {// проверить корректность введенного токена GH
-        const response:any = await getGitHubData( query_check_token, {}, GITHUB_TOKEN )
+    checkGhToken: async (GITHUB_TOKEN: string) => {// проверить корректность введенного токена GH
+        const response: any = await getGitHubData( query_check_token, {}, GITHUB_TOKEN )
         return (response) //возврат данных из поля data
     },
-    getStarredRepos: async (GITHUB_TOKEN:string) => {// получить самые популярные репозитории с гитхаб
-        const response:GetReposType = await getGitHubData( query, {}, GITHUB_TOKEN )
-        return (response.search.nodes) //возврат данных из поля data
+    getStarredRepos: async (GITHUB_TOKEN: string) => {// получить самые популярные репозитории с гитхаб
+        const response: GetMyReposType = await getGitHubData( query, {}, GITHUB_TOKEN )
+        return (response.viewer.repositories.nodes) //возврат данных из поля data
     },
-    searchRepos: async (searchQuery: string, GITHUB_TOKEN:string) => {// получить самые популярные репозитории с гитхаб
+    searchRepos: async (searchQuery: string, GITHUB_TOKEN: string) => {// получить самые популярные репозитории с гитхаб
         const variablesLocal = {
             getQuery: `${searchQuery} sort:stars`,
         }
-        const response:GetReposType = await getGitHubData( query2, variablesLocal, GITHUB_TOKEN )
+        const response: GetReposType = await getGitHubData( query2, variablesLocal, GITHUB_TOKEN )
         return (response.search.nodes) //возврат данных из поля data
     },
-    getCardData: async (cardId: string, GITHUB_TOKEN:string) => {// получить данные карточки репозитория с гитхаб
+    getCardData: async (cardId: string, GITHUB_TOKEN: string) => {// получить данные карточки репозитория с гитхаб
         const variablesLocal = {
             getId: `${cardId}`,
         }
