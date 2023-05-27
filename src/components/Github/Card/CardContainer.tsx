@@ -6,6 +6,7 @@ import {compose} from "redux";
 import withRouter2 from "../../../common/hoc/withRouter2";
 import {getCardDataThCr} from "../../../redux/gh-card-reducer";
 import Preloader from "../../../common/Preloader/Preloader";
+import NavigateToLoginHoc2 from "../../../common/hoc/NavigateToLoginHoc2";
 
 const CardContainer:React.FC<mapStateToPropsType & mapDispatchToPropsType & OwnPropsType> = (
     {CardData, userId, getCardDataThCr, CardMarkers, IsFetching}) => {
@@ -49,4 +50,5 @@ export default compose<React.ComponentType>(
         getCardDataThCr
     } ),
     withRouter2,// получить данные ID из URL браузера и добавить в пропсы
+    NavigateToLoginHoc2 //проверка, залогинен ли я
 )( CardContainer )

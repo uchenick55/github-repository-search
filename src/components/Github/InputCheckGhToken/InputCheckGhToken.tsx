@@ -8,9 +8,12 @@ type InputCheckGhTokenType = {
     ServerError: ServerErrorType
     setTokenToState: (tokenLocal:string) => void // запись токена в стейт
     IsFetching: boolean // статус загрузки данных
+    isAuth: boolean // я авторизован по токену?
 }
 
-const InputCheckGhToken: React.FC<InputCheckGhTokenType> = ({setTokenToState, ServerError, IsFetching}) => {
+const InputCheckGhToken: React.FC<InputCheckGhTokenType> = (
+    {setTokenToState, ServerError, IsFetching, isAuth}) => {
+
     const [tokenLocal, setTokenLocal] = useState<string>("")
 
     const checkEnterPressed = (event: React.KeyboardEvent) => { // проверка нажатия Enter
@@ -35,9 +38,8 @@ const InputCheckGhToken: React.FC<InputCheckGhTokenType> = ({setTokenToState, Se
             onChange={(e)=>setTokenLocal(e.target.value)}
             onKeyPress={checkEnterPressed} // проверка нажатия Enter
         />
-        <div className={s.ServerError}>
-            {ServerError} {/*вывод ошибок с сервера*/}
-        </div>
+        {ServerError && <div className={s.ServerError}>{ServerError}</div>} {/*ошибки с сервера*/}
+        {isAuth && <div className={s.isAuthTrue}>Авторизация успешна</div> } {/*авторизация успешна*/}
     </div>
 }
 export default InputCheckGhToken

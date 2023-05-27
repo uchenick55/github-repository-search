@@ -19,3 +19,11 @@
     color: red;
     width: 30rem;
 }
+.isAuthTrue {
+    position: absolute;
+    top: 12rem;
+    color: green;
+    width: 30rem;
+    font-weight: bold;
+
+}

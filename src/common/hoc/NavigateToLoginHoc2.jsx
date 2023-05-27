@@ -11,8 +11,8 @@ let mapStateToProps = (state) => {
 
 let NavigateToLoginHoc2 = (Component) => {
     const NavigateToLoginHocWithAuth2 = (props) => {
-        if (props.isAuth) {
-            return <Navigate to='../list'/>;
+        if (!props.isAuth) {
+            return <Navigate to='../'/>;
         }
         return <Component {...props}/>;
     }
