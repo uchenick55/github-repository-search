@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import s from "./Repositories.module.css"
+import sc from "../../../common/classes/commonClasses.module.css"
 
 type RenderSearchFieldType = {
     SearchQuery: string, // поле поиска
@@ -25,9 +26,9 @@ const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, Sea
                placeholder={"Поиск по gitHub репозиториям"}// текст при пустом поле ввода
                onKeyPress={checkEnterPressed} // проверка нажатия Enter
         />
-        <div className={s.ButtonEnterExt}>
+        <div className={sc.ButtonEnterExt + " " + sc.ButtonEnterEtxList}>
             <div
-                className={`${s.ButtonEnterInt} ${IsFetching && s.Disabled}`}
+                className={`${sc.ButtonEnterInt} ${IsFetching && sc.Disabled}`}
                 onClick={()=>{setSearchQuery( inputValue )}}>Enter</div>
         </div>
 

@@ -14,33 +14,6 @@
 
 }
 
-.ButtonEnterExt {
-    position: absolute;
-    right: 3.85rem;
-    top: 0.9rem;
-    width: 3rem;
-    height: 1.5rem;
-    background-color: rgb(240, 240, 240);
-    border: 1px solid rgba(100, 100, 100, 0.2);
-    border-radius: 0.2rem;
-
-}
-
-.ButtonEnterInt {
-    position: absolute;
-    left: 0.4rem;
-    top: 0.2rem;
-    cursor: pointer;
-}
-.Disabled {
-    pointer-events: none;
-    opacity: 0.4;
-}
-.ButtonEnterExt:hover {
-    background-color: rgb(230, 230, 230);
-    color: green;
-}
-
 .SearchField {
     position: relative;
     top: 0.7rem;

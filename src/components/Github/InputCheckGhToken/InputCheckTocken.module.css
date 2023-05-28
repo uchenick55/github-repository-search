@@ -1,3 +1,8 @@
+.InputCheckGhTokenCommon {
+    position: absolute;
+    width: 30rem;
+}
+
 .inputToken {
     position: absolute;
     top: 9rem;
@@ -10,8 +15,7 @@
 }
 
 .InputTokenText {
-    position: absolute;
-    width: 30rem;
+
 }
 .ServerError {
     position: absolute;

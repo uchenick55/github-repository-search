@@ -21,23 +21,34 @@ const InputCheckGhToken: React.FC<InputCheckGhTokenType> = (
         }
     }
     return <div className={sc.ToCenter} >
-        {IsFetching && <Preloader/>} {/*индикатор загрузки */}
+        <div className={s.InputCheckGhTokenCommon}>
+            {IsFetching && <Preloader/>} {/*индикатор загрузки */}
 
-        <div className={s.InputTokenText}>
-            <h3>Для поиска по репозиториям GutHub введите полученый токен, либо создайте свой:</h3>
-            {`https://github.com => Settings => Developer settings => Personal access tokens =>
+            <div className={s.InputTokenText}>
+                <h3>Для поиска по репозиториям GutHub введите полученый токен, либо создайте свой:</h3>
+                {`https://github.com => Settings => Developer settings => Personal access tokens =>
             Fine-grained personal access tokens => `}
-            <a rel="stylesheet" href="https://github.com/settings/tokens?type=beta">Generate new token</a>
+                <a rel="stylesheet" href="https://github.com/settings/tokens?type=beta">Generate new token</a>
+            </div>
+            <input
+                className={s.inputToken}
+                type="password"
+                value={tokenLocal}
+                autoFocus={true}
+                onChange={(e)=>setTokenLocal(e.target.value)}
+                onKeyPress={checkEnterPressed} // проверка нажатия Enter
+                placeholder={"токен авторизации GitHub..."}
+            />
+            <div className={sc.ButtonEnterExt +" "+ sc.ButtonEnterExtToken}>
+                <div
+                    className={`${sc.ButtonEnterInt} ${IsFetching && sc.Disabled}`}
+                       onClick={()=>{setTokenToState(tokenLocal)}}
+                >Enter</div>
+            </div>
+
+            {ServerError && <div className={s.ServerError}>{ServerError}</div>} {/*ошибки с сервера*/}
+
         </div>
-        <input
-            className={s.inputToken}
-            type="password"
-            value={tokenLocal}
-            autoFocus={true}
-            onChange={(e)=>setTokenLocal(e.target.value)}
-            onKeyPress={checkEnterPressed} // проверка нажатия Enter
-        />
-        {ServerError && <div className={s.ServerError}>{ServerError}</div>} {/*ошибки с сервера*/}
-    </div>
+         </div>
 }
 export default InputCheckGhToken
