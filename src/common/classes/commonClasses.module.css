@@ -2,15 +2,22 @@
     display: flex;
     justify-content: center;
 }
+.logoutList {
+    left: 0.5rem;
+    top: 0.2rem;
 
+}
+.logoutCard {
+    left: 0rem;
+    top: 0.2rem;
+
+}
 .logOutCommon {
     width: 3rem;
     position: absolute;
     z-index: 100;
     transition: 0.2s ease-in-out;
     cursor: pointer;
-    left: 21.8rem;
-    top: 0.7rem;
 }
 .logOutCommon:hover {
     transform: scale(1.1);

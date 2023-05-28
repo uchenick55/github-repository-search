@@ -24,17 +24,16 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
         RepositoriesData, logOut}) => {
 
     return <div className={sc.ToCenter}> {/*  центруем*/}
-        <img
-            className={sc.logOutCommon }
-            src={LogOut} alt="log out"
-            title="log out"
-            onClick={()=>logOut()}
 
-        /> {/*кнопка логаута (зануление токена*/}
         <div className={s.GitHubCOM}>
             {IsFetching && <Preloader/>}
+            <img
+                className={sc.logOutCommon + " " + sc.logoutList }
+                src={LogOut} alt="log out"
+                title="log out"
+                onClick={()=>logOut()}
 
-
+            /> {/*кнопка логаута (зануление токена*/}
 
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery} IsFetching={IsFetching}/> {/*отрисовка поля поиска */}
 

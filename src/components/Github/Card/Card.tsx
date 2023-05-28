@@ -21,14 +21,15 @@ const Card: React.FC<CardCommonType> = ({CardData, logOut}) => {
 
     const DateLocal: DataReturn2Type = GetDate(CardData.defaultBranchRef ? CardData.defaultBranchRef.target.committedDate :"" )
     return <div className={sc.ToCenter}> {/*  центруем*/}
-        <img
-            className={sc.logOutCommon}
-            src={LogOut} alt="log out"
-            title="log out"
-            onClick={()=>logOut()}
 
-        /> {/*кнопка логаута (зануление токена*/}
         <div className={s.CardCommon}>
+            <img
+                className={sc.logOutCommon + " " + sc.logoutCard}
+                src={LogOut} alt="log out"
+                title="log out"
+                onClick={()=>logOut()}
+
+            /> {/*кнопка логаута (зануление токена*/}
             <img className={s.imgAvatar} src={CardData.owner && CardData.owner.avatarUrl} alt=""/>
             <div className={s.otherData}>
                 <h2><a href={RepoLink}>{name}</a></h2>
