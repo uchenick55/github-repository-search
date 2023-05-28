@@ -1,5 +1,5 @@
 .CardCommon {
-    width: 40rem;
+    width: 35rem;
     background-color: aqua ;
     border-radius: 0.5rem;
     padding: 1rem;
@@ -9,7 +9,7 @@
 .imgAvatar {
     position: absolute;
     left: 1rem;
-    top: 1rem;
+    top: 2.8rem;
     border-radius: 0.5rem;
     width: 9rem;
     height: 9rem;

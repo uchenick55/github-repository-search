@@ -9,11 +9,12 @@ import {
 } from "../../../redux/gh-list-reducer";
 import {compose} from "redux";
 import NavigateToLoginHoc2 from "../../../common/hoc/NavigateToLoginHoc2";
+import {checkGhTokenThCr} from "../../../redux/app-reducer";
 
 const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
     { PaginationData, setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery,
         IsFetching, getMyRepositoriesDataThCr, getSearchResultDataThCr, RepositoriesData, ListMarkers,
-        setListMarkersAC,}) => {
+        setListMarkersAC, checkGhTokenThCr}) => {
 
     const setSearchQuery = (searchQuery: string) => {
         !IsFetching && // если загрузка еще не идет (защита от повторной отправки запроса)
@@ -26,6 +27,10 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
                 }
             )
         }
+    }
+
+    const logOut = () => {
+        checkGhTokenThCr("") // занулить токен и запустить проверку логина
     }
 
     const setPaginationData = (PaginationData: PaginationDataType) => {
@@ -49,6 +54,7 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
         <GitHubCOM setSearchQuery={setSearchQuery} PaginationData={PaginationData}
                    setPaginationData={setPaginationData} SearchQuery={SearchQuery}
                    IsFetching={IsFetching} RepositoriesData={RepositoriesData}
+                   logOut={logOut}
         />
     </div>
 }
@@ -70,6 +76,7 @@ type mapDispatchToPropsType = {
     getMyRepositoriesDataThCr: () => void, // получение данных моих репозиториев
     getSearchResultDataThCr: (SearchQuery:string) => void, // получение данных поискового запроса
     setListMarkersAC: (ListMarkers: MarkersListType) => void // изменение вспомогательных флагов ListMarkers
+    checkGhTokenThCr:  (Token: string) => void // санка записи в стейт и локалсторадж GITHUB_TOKEN
 }
 
 const {setListMarkersAC} = GithubActions
@@ -81,7 +88,7 @@ export default compose<React.ComponentType>(
         GlobalStateType // глобальный стейт из стора
         >( mapStateToProps, {
            setPaginationDataThunkCreator, setSearchQueryThunkCreator,
-           getMyRepositoriesDataThCr, getSearchResultDataThCr, setListMarkersAC
+           getMyRepositoriesDataThCr, getSearchResultDataThCr, setListMarkersAC, checkGhTokenThCr
     } ),
      NavigateToLoginHoc2 //проверка, залогинен ли я
 )( RepoListContainer )

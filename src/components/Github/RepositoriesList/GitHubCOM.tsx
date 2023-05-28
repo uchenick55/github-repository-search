@@ -2,15 +2,13 @@ import {PaginationDataType} from "../../../redux/gh-list-reducer";
 import React from "react";
 import s from "./Repositories.module.css"
 import sc from "../../../common/classes/commonClasses.module.css"
-
-
-
 import RenderRepositories from "./RenderRepositories";
 import RenderSearchField from "./RenderSearchField";
 import Pagination from "./Pagination";
 import {RepositoriesDataType} from "../../../common/types/commonTypes";
 import Preloader from "../../../common/Preloader/Preloader";
 import notFound2 from "../../../assets/svg/404.svg"
+import LogOut from "../../../assets/svg/logOut.svg"
 
 export type GitHubCOMType = {
     RepositoriesData: Array<RepositoriesDataType> , // данные списка репозиториев моих, либо поиска
@@ -19,13 +17,25 @@ export type GitHubCOMType = {
     IsFetching:boolean // индикатор процесса загрузки
     setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
     setPaginationData: (PaginationData: PaginationDataType) => void //колбек задания данных пагинации в стейт
+    logOut:  () => void //логаут
 }
 const GitHubCOM: React.FC<GitHubCOMType> = (
-    {setSearchQuery, PaginationData, setPaginationData, SearchQuery, IsFetching, RepositoriesData}) => {
+    {setSearchQuery, PaginationData, setPaginationData, SearchQuery, IsFetching,
+        RepositoriesData, logOut}) => {
 
     return <div className={sc.ToCenter}> {/*  центруем*/}
+        <img
+            className={sc.logOutCommon }
+            src={LogOut} alt="log out"
+            title="log out"
+            onClick={()=>logOut()}
+
+        /> {/*кнопка логаута (зануление токена*/}
         <div className={s.GitHubCOM}>
             {IsFetching && <Preloader/>}
+
+
+
             <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery} IsFetching={IsFetching}/> {/*отрисовка поля поиска */}
 
             {!IsFetching && <div>

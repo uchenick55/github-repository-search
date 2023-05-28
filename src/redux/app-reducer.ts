@@ -19,8 +19,8 @@ export const AppActions = {
     setIsFetchingAC: (IsFetching: boolean) => { // экшн креатор задания процесса загрузки
         return {type: SET_IS_FETCHING, IsFetching} as const
     },
-    setGithubTokenAC: (GITHUB_TOKEN: string) => { // экшн креатор записи в стейт GITHUB_TOKEN после проверки
-        return {type: SET_GITHUB_TOKEN, GITHUB_TOKEN} as const
+    setGithubTokenAC: (GITHUB_TOKEN: string, isAuth: boolean) => { // экшн креатор записи в стейт GITHUB_TOKEN после проверки
+        return {type: SET_GITHUB_TOKEN, GITHUB_TOKEN, isAuth} as const
     },
     setServerErrorAC: (ServerError: ServerErrorType) => { // экшн креатор записи в стейт ошибок с сервера
         return {type: SET_SERVER_ERROR, ServerError} as const
@@ -61,7 +61,7 @@ const appReducer = (state: AppInitialStateType = AppInitialState, action: AppAct
             stateCopy = {
                 ...state, // копия всего стейта
                 GITHUB_TOKEN: action.GITHUB_TOKEN,
-                isAuth: true,
+                isAuth: action.isAuth,
                 ServerError: ""
             }
             return stateCopy; // возврат копии стейта после изменения
@@ -95,15 +95,17 @@ export const checkGhTokenThCr = (Token: string): ComThunkTp<AppActionTypes> => {
         dispatch( AppActions.setIsFetchingAC( true ) ) // начать процесс загрузки
         gitHubQuery.checkGhToken( Token ).then( (response1: any) => {
                 apiCommon.putGithubTokenLs( Token )
-                dispatch( AppActions.setGithubTokenAC( Token ) )
+                dispatch( AppActions.setGithubTokenAC( Token, true ) )
                 dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
                 console.log( "токен проверен, вызов корректный, записали его в стейт", response1 )
             }
         )
             .catch( (error1) => {
-                    dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
-                    dispatch( AppActions.setServerErrorAC( error1.message ) )
-                    console.log( error1 )
+                apiCommon.putGithubTokenLs( Token )
+                dispatch( AppActions.setGithubTokenAC( Token, false ) )
+                dispatch( AppActions.setServerErrorAC( error1.message ) )
+                dispatch( AppActions.setIsFetchingAC( false ) ) // закончить процесс загрузки
+                console.log( error1 )
                 }
             )
     }
