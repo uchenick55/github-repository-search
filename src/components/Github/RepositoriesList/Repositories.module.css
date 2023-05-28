@@ -32,6 +32,14 @@
     top: 0.2rem;
     cursor: pointer;
 }
+.Disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.ButtonEnterExt:hover {
+    background-color: rgb(230, 230, 230);
+    color: green;
+}
 
 .SearchField {
     position: relative;

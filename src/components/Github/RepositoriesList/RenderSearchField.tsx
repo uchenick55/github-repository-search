@@ -3,10 +3,11 @@ import s from "./Repositories.module.css"
 
 type RenderSearchFieldType = {
     SearchQuery: string, // поле поиска
+    IsFetching:boolean // индикатор процесса загрузки
     setSearchQuery: (searchQuery: string) => void // задание в стейт поискового запроса
 }
 
-const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, SearchQuery}) => {
+const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, SearchQuery, IsFetching}) => {
     const [inputValue, setInputValue] = useState<string>( SearchQuery )
     const checkEnterPressed = (event: React.KeyboardEvent) => { // проверка нажатия Enter
         if (event.charCode === 13) {
@@ -20,12 +21,13 @@ const RenderSearchField: React.FC<RenderSearchFieldType> = ({setSearchQuery, Sea
                    setInputValue( e.target.value )
                }}
                autoFocus //  фокусировка на поле ввода текста
+               disabled={IsFetching}
                placeholder={"Поиск по gitHub репозиториям"}// текст при пустом поле ввода
                onKeyPress={checkEnterPressed} // проверка нажатия Enter
         />
         <div className={s.ButtonEnterExt}>
             <div
-                className={s.ButtonEnterInt}
+                className={`${s.ButtonEnterInt} ${IsFetching && s.Disabled}`}
                 onClick={()=>{setSearchQuery( inputValue )}}>Enter</div>
         </div>
 

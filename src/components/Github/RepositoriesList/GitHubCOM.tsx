@@ -26,7 +26,7 @@ const GitHubCOM: React.FC<GitHubCOMType> = (
     return <div className={sc.ToCenter}> {/*  центруем*/}
         <div className={s.GitHubCOM}>
             {IsFetching && <Preloader/>}
-            <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery}/> {/*отрисовка поля поиска */}
+            <RenderSearchField setSearchQuery={setSearchQuery} SearchQuery={SearchQuery} IsFetching={IsFetching}/> {/*отрисовка поля поиска */}
 
             {!IsFetching && <div>
 

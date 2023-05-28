@@ -2,7 +2,6 @@ import {InferActionsTypes} from "./store-redux";
 import {CardDataType, ComThunkTp} from "../common/types/commonTypes";
 import {AppActions} from "./app-reducer";
 import {gitHubQuery} from "../api/graphQl";
-import {GithubActions, initialStateGhList, MarkersListType} from "./gh-list-reducer";
 
 const SET_CARD_DATA = "myApp/app-reducer/SET_CARD_DATA"; //константа задания данных карточки
 const SET_CARD_MARKERS = "myApp/app-reducer/SET_CARD_MARKERS"; //константа задания вспомогательных маркеров

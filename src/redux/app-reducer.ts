@@ -2,7 +2,7 @@ import {InferActionsTypes} from "./store-redux";
 import {ComThunkTp} from "../common/types/commonTypes";
 import {
     getPaginationDataThunkCreator,
-    getSearchQueryThunkCreator, GithubActions,
+    getSearchQueryThunkCreator,
 } from "./gh-list-reducer";
 import {gitHubQuery} from "../api/graphQl";
 import {apiCommon} from "../api/apiLocalStorage";

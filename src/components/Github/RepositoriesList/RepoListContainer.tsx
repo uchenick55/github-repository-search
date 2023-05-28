@@ -16,7 +16,8 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
         setListMarkersAC,}) => {
 
     const setSearchQuery = (searchQuery: string) => {
-        setSearchQueryThunkCreator(searchQuery) // запрашиваем новые данные поиска при любом изменении searchQuery
+        !IsFetching && // если загрузка еще не идет (защита от повторной отправки запроса)
+            setSearchQueryThunkCreator(searchQuery) // запрашиваем новые данные поиска
 
         if (searchQuery==="") { // при обнулении поискового запроса меняем маркер для загрузки моих репозиториев
             setListMarkersAC( {
