@@ -10,11 +10,12 @@ import {
 import {compose} from "redux";
 import NavigateToLoginHoc2 from "../../../common/hoc/NavigateToLoginHoc2";
 import {checkGhTokenThCr} from "../../../redux/app-reducer";
+import withRouter2 from "../../../common/hoc/withRouter2";
 
-const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
+const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType & OwnPropsType> = (
     { PaginationData, setPaginationDataThunkCreator, setSearchQueryThunkCreator, SearchQuery,
         IsFetching, getMyRepositoriesDataThCr, getSearchResultDataThCr, RepositoriesData, ListMarkers,
-        setListMarkersAC, checkGhTokenThCr}) => {
+        setListMarkersAC, checkGhTokenThCr, cardId}) => {
 
     const setSearchQuery = (searchQuery: string) => {
         !IsFetching && // если загрузка еще не идет (защита от повторной отправки запроса)
@@ -50,6 +51,10 @@ const RepoListContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> 
         }
     },[SearchQuery, ListMarkers.IsRepositoriesDataUploaded, getMyRepositoriesDataThCr, getSearchResultDataThCr])
 
+    useEffect(()=>{
+        console.log(cardId)
+        setPaginationData( {...PaginationData, currentPage: Number(cardId)} )
+    },[cardId])
     return <div>
         <GitHubCOM setSearchQuery={setSearchQuery} PaginationData={PaginationData}
                    setPaginationData={setPaginationData} SearchQuery={SearchQuery}
@@ -78,17 +83,20 @@ type mapDispatchToPropsType = {
     setListMarkersAC: (ListMarkers: MarkersListType) => void // изменение вспомогательных флагов ListMarkers
     checkGhTokenThCr:  (Token: string) => void // санка записи в стейт и локалсторадж GITHUB_TOKEN
 }
-
+type OwnPropsType = {
+    cardId: string // id пользователя
+}
 const {setListMarkersAC} = GithubActions
 
 export default compose<React.ComponentType>(
     connect<mapStateToPropsType, // тип mapStateToProps
         mapDispatchToPropsType, // тип mapDispatchToProps
-        unknown, // тип входящих пропсов от родителя
+        OwnPropsType, // тип входящих пропсов от родителя
         GlobalStateType // глобальный стейт из стора
         >( mapStateToProps, {
            setPaginationDataThunkCreator, setSearchQueryThunkCreator,
            getMyRepositoriesDataThCr, getSearchResultDataThCr, setListMarkersAC, checkGhTokenThCr
     } ),
+     withRouter2,
      NavigateToLoginHoc2 //проверка, залогинен ли я
 )( RepoListContainer )

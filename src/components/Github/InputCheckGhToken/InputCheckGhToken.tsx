@@ -46,7 +46,7 @@ const InputCheckGhToken: React.FC<InputCheckGhTokenType> = (
                 >Enter</div>
             </div>
 
-            {ServerError && <div className={s.ServerError}>{ServerError}</div>} {/*ошибки с сервера*/}
+            {<div className={s.ServerError} data-testid="errors">{ServerError}</div>} {/*ошибки с сервера*/}
 
         </div>
          </div>

@@ -2,6 +2,7 @@ import React from "react";
 import {PaginationDataType} from "../../../redux/gh-list-reducer";
 import s from "./Repositories.module.css"
 import sc from "../../../common/classes/commonClasses.module.css"
+import {NavLink} from "react-router-dom";
 
 
 type PaginationType = {
@@ -28,17 +29,13 @@ const Pagination: React.FC<PaginationType> = (
 
     const renderSlicedPages = pages.map( (p) => { // мапинг отобранного массива
         return (
-            <div // пагинация
-                className={`${s.PIC} ${p===PaginationData.currentPage? s.PaginationItemCurrent:s.PaginationItem}`} //стиль каждого элемента пагинации
-                key={p} // ключ - страница
-                onClick={() => { // по клику
-                    setPaginationData( {...PaginationData, currentPage: p} )
-
-                    //  onPageChanged( p );  смена текущей старницы на кликнутую
-                }}
+            <NavLink to={`/list/${p}`} key={p}
+                     className={`${s.PIC} ${p === PaginationData.currentPage ? s.PaginationItemCurrent : s.PaginationItem}`} //стиль каждого элемента пагинации
             >
                 {p} {/*отрисовать номер страницы в пагинации*/}
-            </div>
+            </NavLink>
+
+
         );
     } )
 
