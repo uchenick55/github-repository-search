@@ -1,22 +1,133 @@
 import { test, expect } from '@playwright/test';
 
 const TEST_URL:string = 'http://localhost:3000/github-repository-search#/';
-// https://uchenick55.github.io/github-repository-search/#/
+//const TEST_URL:string = 'https://uchenick55.github.io/github-repository-search/#/';
 
-const TEST_TOKEN: string = "_pat_11AZK6O3Y0akW17a6emDAf_4mTlJPBGa7lCxJmBiGqSt0fsNaxhCgQYhiKfOe8LZGZEHD644UANIWYLx4q"
-//github
+const TEST_TOKEN: string = "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"
+//
 
-test('Success authority', async ({ page }) => { // успешный вход по токену (авторизация)
-  await page.goto(TEST_URL);
+test.describe('Tests after login', () => {
+  test.beforeEach(async ({ page }, testInfo) => { // общая часть группы тестов для логина по токену
 
-  // заполнить поле ввода верным значением токена
-  await page.getByRole('textbox').fill(TEST_TOKEN);
+    await page.goto(TEST_URL);
 
- // жмем на кнопку отправить
-  await page.getByText('Enter').click();
+    // заполнить поле ввода верным значением токена
+    await page.getByRole('textbox').fill(TEST_TOKEN);
 
-  // URL содержит строку list
-  await expect(page).toHaveURL(/.*list/);
+    // жмем на кнопку отправить
+    await page.getByText('Enter').click();
+  });
+
+  test('Success authority2', async ({ page }) => { // успешный вход по токену (авторизация)
+    // URL содержит строку list
+    await expect(page).toHaveURL(/.*list/);
+  });
+
+
+  test('Pagination4', async ({ page }) => { // переключение между страницами пагинации
+
+    // URL содержит строку list
+    await expect(page).toHaveURL(/.*list/);
+
+    //поле ввода поиска репозиториев заполнить
+    await page.getByRole('textbox').fill("123");
+
+    // жмем на кнопку Enter поиска репозиториев
+    await page.getByText('Enter').click();
+
+    //кликаем по третьей странице пагинации
+    await  page.getByTestId('Pagination_page_3').click();
+
+    // URL заканчивается на символ 3
+    await expect(page).toHaveURL("http://localhost:3000/github-repository-search#/list/3");
+
+    //кликаем по первой странице пагинации
+    await  page.getByTestId('Pagination_page_1').click();
+
+    // URL заканчивается на символ 1
+    await expect(page).toHaveURL("http://localhost:3000/github-repository-search#/list/1");
+  });
+
+
+
+
+
+  test('Card open2', async ({ page }) => { // открытие карточки репозитория
+
+    //поле ввода поиска репозиториев очистить
+    await page.getByRole('textbox').fill("");
+
+    // жмем на кнопку Enter поиска репозиториев
+    await page.getByText('Enter').click();
+
+    //кликаем по первой странице пагинации
+    await  page.getByTestId('Pagination_page_1').click();
+
+    // URL содержит полный URL с list/1 в конце
+    await expect(page).toHaveURL(`${TEST_URL}list/1`);
+
+    await  page.getByTestId('1').click(); // кликаем по первому репозиторию в списке (он есть всегда)
+
+    // URL содержит "card" символы (мы зашли на карточку)
+    await expect(page).toHaveURL(/.*card*/);
+
+
+    // await page.route('**/api/fetch_data_third_party_dependency', route => route.fulfill({
+    //   status: 200,
+    // }));
+    await page.getByTestId('CardName').click(); // кликаем по имени репозитория в карточке
+
+    // await page.goto('https://github.com/uchenick55/react-kabzda-1');
+
+   // await page.goBack() // возвращаемся назад на карточку репозитория
+
+    // await page.route('**/api/fetch_data_third_party_dependency', route => route.fulfill({
+    //   status: 200,
+    // }));
+    // await page.goto('https://github.com/uchenick55');
+   //   await  page.getByTestId('AuthorName').click();
+
+  });
+  test('LogOut List page', async ({ page }) => { // логаут пользователя со страницы
+
+    //нажать кнопку логаут
+    await page.getByRole('img', { name: 'log out' }).click();
+
+     // URL содержит полный URL с list/1 в конце
+    await expect(page).toHaveURL(`${TEST_URL}`);
+
+  });
+  test('LogOut Card page', async ({ page }) => { // логаут пользователя со страницы
+
+    //поле ввода поиска репозиториев очистить
+    await page.getByRole('textbox').fill("");
+
+    // жмем на кнопку Enter поиска репозиториев
+    await page.getByText('Enter').click();
+
+    //кликаем по первой странице пагинации
+    await  page.getByTestId('Pagination_page_1').click();
+
+    // URL содержит полный URL с list/1 в конце
+    await expect(page).toHaveURL(`${TEST_URL}list/1`);
+
+    await  page.getByTestId('1').click(); // кликаем по первому репозиторию в списке (он есть всегда)
+
+    // URL содержит "card" символы (мы зашли на карточку)
+    await expect(page).toHaveURL(/.*card*/);
+
+    //нажать кнопку логаут
+    await page.getByRole('img', { name: 'log out' }).click();
+
+     // URL содержит полный URL с list/1 в конце
+    await expect(page).toHaveURL(`${TEST_URL}`);
+
+  });
+
+
+
+
+
 });
 
 
@@ -44,85 +155,3 @@ test('Error token', async ({ page }) => { // отображение ошибок
   await expect(ErrorsField).toHaveText("Failed to execute 'setRequestHeader' on 'XMLHttpRequest': String contains non ISO-8859-1 code point.")
 
 });
-
-test('Pagination', async ({ page }) => { // переключение между страницами пагинации
-  await page.goto(TEST_URL);
-
-  // заполнить поле ввода верным значением токена
-  await page.getByRole('textbox').fill(TEST_TOKEN);
-
-  // жмем на кнопку отправить
-  await page.getByText('Enter').click();
-
-  // URL содержит строку list
-  await expect(page).toHaveURL(/.*list/);
-
-  //поле ввода поиска репозиториев очистить
-  await page.getByRole('textbox').fill("123");
-
-  // жмем на кнопку Enter поиска репозиториев
-  await page.getByText('Enter').click();
-
-  // жмем на ссылку
-  await page.getByText('Enter').click();
-
-  //кликаем по третьей странице пагинации
-  await  page.getByRole('link', { name: '3', exact: true }).click();
-
-  // URL заканчивается на символ 3
-  await expect(page).toHaveURL(/.*3/);
-
-  //кликаем по первой странице пагинации
-  await  page.getByRole('link', { name: '1', exact: true }).click();
-
-  // URL заканчивается на символ 1
-  await expect(page).toHaveURL(/.*1/);
-});
-
-test('Card open', async ({ page }) => { // открытие карточки репозитория
-  await page.goto(TEST_URL);
-
-  // заполнить поле ввода верным значением токена
-  await page.getByRole('textbox').fill(TEST_TOKEN);
-
-  // жмем на кнопку отправить
-  await page.getByText('Enter').click();
-
-  // URL содержит строку list
-  await expect(page).toHaveURL(/.*list/);
-
-  //поле ввода поиска репозиториев очистить
-  await page.getByRole('textbox').fill("");
-
-  // жмем на кнопку Enter поиска репозиториев
-  await page.getByText('Enter').click();
-
-  //кликаем по первой странице пагинации
-  await  page.getByRole('link', { name: '1', exact: true }).click();
-
-  // URL заканчивается на символ 1
-  await expect(page).toHaveURL(/.*1/);
-
-  //кликаем по первому репозиторию в списке
-  await  page.getByRole('link', { name: 'react-kabzda-1' }).click();
-
-
-  // URL заканчивается на символы R_kgDOHZeBEg (мы зашли на карточку)
-  await expect(page).toHaveURL(/.*R_kgDOHZeBEg/);
-
-  //кликаем по названию репозитория
-  await  page.getByRole('link', { name: 'react-kabzda-1' }).click();
-
-  // URL соответствует репозиторию на Github
-  await expect(page).toHaveURL("https://github.com/uchenick55/react-kabzda-1");
-
-  await page.goBack() // возвращаемся назад на карточку репозитория
-
-  //кликаем по имени автора
-  await  page.getByRole('link', { name: 'uchenick55' }).click();
-
-  // URL соответствует репозиторию на Github
-  await expect(page).toHaveURL("https://github.com/uchenick55");
-
-});
-

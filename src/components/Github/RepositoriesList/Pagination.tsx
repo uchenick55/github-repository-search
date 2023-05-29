@@ -28,15 +28,12 @@ const Pagination: React.FC<PaginationType> = (
     }
 
     const renderSlicedPages = pages.map( (p) => { // мапинг отобранного массива
-        return (
-            <NavLink to={`/list/${p}`} key={p}
-                     className={`${s.PIC} ${p === PaginationData.currentPage ? s.PaginationItemCurrent : s.PaginationItem}`} //стиль каждого элемента пагинации
-            >
-                {p} {/*отрисовать номер страницы в пагинации*/}
-            </NavLink>
-
-
-        );
+        return <NavLink to={`/list/${p}`} key={p}
+                        data-testid={`Pagination_page_${p}`}
+                        className={`${s.PIC} ${p === PaginationData.currentPage ? s.PaginationItemCurrent : s.PaginationItem}`} //стиль каждого элемента пагинации
+        >
+            {p} {/*отрисовать номер страницы в пагинации*/}
+        </NavLink>
     } )
 
     return (

@@ -4,18 +4,22 @@ import GetDate, {DataReturn2Type} from "../../../common/GetDate/GetDate";
 import {NavLink} from "react-router-dom";
 
 type RepositoryItemType = {
-    RepositoryName:string | null
+    RepositoryName:string
     stars: number
-    LastCommit:string | null
-    Link: string | null | undefined
-    id: string | null
+    LastCommit:string
+    Link: string
+    id: string
     ind: number
+    currentPage: number
+    pageSize: number
 }
-const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id, ind})=>{
+const RepositoryItem:React.FC<RepositoryItemType> = ({RepositoryName, stars, LastCommit, Link, id, ind,
+                                                         currentPage, pageSize})=>{
     const LocalDate:DataReturn2Type = GetDate(LastCommit? LastCommit:"")
+    const repositoryNumber = ind+1 + (currentPage-1)*pageSize // порядковый номер репозитория 1...100
     return <div className={s.RepositoryItemCommon}>
-        <div className={s.Repositoryid  + " " + s.PosAbs }>{ind+1}</div>
-        <NavLink to={`/card/${id}`}>
+        <div className={s.Repositoryid  + " " + s.PosAbs }>{repositoryNumber}</div>
+        <NavLink to={`/card/${id}`} data-testid={repositoryNumber}>
             <div className={s.RepositoryItemName + " " + s.PosRelative}>{RepositoryName}</div> {/*имя*/}
         </NavLink>
         <div className={s.RepositoryItemStars + " " + s.PosAbs} >{stars}</div> {/*количество звезд*/}

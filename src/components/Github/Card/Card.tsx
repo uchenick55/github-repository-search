@@ -32,10 +32,10 @@ const Card: React.FC<CardCommonType> = ({CardData, logOut}) => {
             /> {/*кнопка логаута (зануление токена*/}
             <img className={s.imgAvatar} src={CardData.owner && CardData.owner.avatarUrl} alt=""/>
             <div className={s.otherData}>
-                <h2><a href={RepoLink}>{name}</a></h2>
+                <h2 data-testid="CardName"><a href={RepoLink} >{name} </a></h2>
                  <div><b>Stars: </b> {totalCount}</div>
                 <div><b>Last Commit: </b> {DateLocal.Day} / {DateLocal.Month} / {DateLocal.Year}</div>
-                {login && <div><b>Author: </b><a href={AuthorLink}>{login}</a></div>}
+                {login && <div><b>Author: </b><div data-testid="CardAuthor"><a href={AuthorLink} >{login}</a></div></div>}
                 {description && <div><b>Description: </b>{description}</div>}
                 {Languages.length>0 && <div><b>Used Languages:</b> <ul>{Languages.map( n => {
                     return <li key={n.name}>{n.name}</li>

@@ -14,7 +14,7 @@ const TokenContainer: React.FC<mapStateToPropsType & mapDispatchToPropsType> = (
         checkGhTokenThCr( Token )
     }
     if (isAuth) { // при успешной авторизации
-        return <Navigate to='../list'/>; // переходим на страницу поиска репозиториев
+        return <Navigate to='../list/1'/>; // переходим на первую страницу поиска репозиториев
     }
 
     return <div>

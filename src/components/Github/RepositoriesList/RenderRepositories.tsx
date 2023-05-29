@@ -10,6 +10,8 @@ type RenderRepositoriesType = {
 }
 const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData, PaginationData}) => {
     console.log("RenderRepositories")
+
+    const {currentPage, pageSize} = PaginationData // текущая страница пагинации
     const RepositoriesDataFiltered: Array<RepositoriesDataType>
         = RepositoriesData.filter((r, ind)=> // фильтрация всех загруженых репозиториев
         ind>=PaginationData.pageSize*(PaginationData.currentPage-1) && // с репозиториев по текущей странице
@@ -30,7 +32,7 @@ const RenderRepositories: React.FC<RenderRepositoriesType> = ({RepositoriesData,
                 LastCommit={
                     m.defaultBranchRef &&
                     m.defaultBranchRef.target.committedDate}
-                Link={m.url} id={m.id}
+                Link={m.url} id={m.id} currentPage={currentPage} pageSize={pageSize}
             />
 
         })}
