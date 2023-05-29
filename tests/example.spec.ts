@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 const TEST_URL:string = 'http://localhost:3000/github-repository-search#/';
 //const TEST_URL:string = 'https://uchenick55.github.io/github-repository-search/#/';
 
-const TEST_TOKEN: string = "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"
-//
+const TEST_TOKEN: string = "_pat_11AZK6O3Y0l6uyZNqOGbEI_6p29kVRnBjTrYe4z4ZJYP1nP96af9Jwf2IMgnXxjqztTR3ZFBDA9eSQT6rs"
+//github
 
 test.describe('Tests after login', () => {
   test.beforeEach(async ({ page }, testInfo) => { // общая часть группы тестов для логина по токену
@@ -121,6 +121,31 @@ test.describe('Tests after login', () => {
 
      // URL содержит полный URL с list/1 в конце
     await expect(page).toHaveURL(`${TEST_URL}`);
+
+  });
+  test('List page reload', async ({ page }) => { // обновление страницы списка репозиториев с
+    // сохранением данных поля ввода и страницы пагинации
+
+    //поле ввода внести поисковые данные
+    await page.getByRole('textbox').fill("444");
+
+    // жмем на кнопку Enter поиска репозиториев
+    await page.getByText('Enter').click();
+
+    //кликаем по четвертой странице пагинации
+    //data-testid="Pagination_page_1"
+    await  page.getByTestId('Pagination_page_2').click();
+
+    // URL содержит полный URL с list/1 в конце
+    await expect(page).toHaveURL(`${TEST_URL}list/2`);
+
+    // перезагружаем страницу
+    await page.reload();
+
+    // URL содержит полный URL с list/2 в конце
+    await expect(page).toHaveURL(`${TEST_URL}list/2`);
+
+
 
   });
 
